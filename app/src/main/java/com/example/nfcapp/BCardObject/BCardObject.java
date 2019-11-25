@@ -1,16 +1,20 @@
-package com.example.nfcapp.Persist_Save;
+package com.example.nfcapp.BCardObject;
+
+import android.graphics.Bitmap;
+import android.graphics.Picture;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserObject {
+public abstract class BCardObject {
+
     private int id;
+    private Bitmap picture;
     private String name;
     private List<String> phoneNumber = new ArrayList<>();
     private List<String> email = new ArrayList<>();
-    private UserObject userObject;
 
-    UserObject(int id, String name) {
+    BCardObject (int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -43,8 +47,8 @@ public class UserObject {
         this.phoneNumber.add(phoneNumber);
     }
 
-    public void addUO(UserObject userObject) {
-        this.userObject = userObject;
+    public void addPicture(Picture bitmap) {
+
     }
 
     @Override
@@ -54,11 +58,10 @@ public class UserObject {
                 ", name='" + name + '\'' +
                 ", phoneNumber=" + phoneNumber +
                 ", email=" + email +
-                ", userObject=" + userObject +
                 '}';
     }
 
-    public String toReadableString() {
+    public String toTerminalString() {
         StringBuilder sb = new StringBuilder();
         sb.append("ID => " + id + "\n");
         sb.append("Name => " + name + "\n");
