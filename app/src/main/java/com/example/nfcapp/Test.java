@@ -17,9 +17,9 @@ public class Test {
 
         System.out.println(a);
 
-        Test b = bla.fromJson(a, Test.class);
+        //Test b = bla.fromJson(a, Test.class);
 
-        System.out.println(b.testInt + 100000);
+        //System.out.println(b.testInt + 100000);
 
     }
 }

@@ -64,7 +64,7 @@ public abstract class BCardObject {
     }
 
     public void addPicture(Picture bitmap) {
-
+        //TODO implement
     }
 
     @Override

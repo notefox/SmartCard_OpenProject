@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.OnNdef
 
     private NfcAdapter mNfcAdapter;
 
+    //Buttom addMessage
     public void addMessage(View view) {
         String newMessage = txtBoxAddMessage.getText().toString();
         messagesToSendArray.add(newMessage);
