@@ -22,7 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-//blablabla
+//lkjhgfd
 public class MainActivity extends AppCompatActivity implements NfcAdapter.OnNdefPushCompleteCallback,
         NfcAdapter.CreateNdefMessageCallback {
 
