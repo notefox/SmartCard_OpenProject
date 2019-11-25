@@ -22,7 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements NfcAdapter.OnNdefPushCompleteCallback, NfcAdapter.CreateNdefMessageCallback {
+public class MainActivity extends AppCompatActivity implements NfcAdapter.OnNdefPushCompleteCallback,
+        NfcAdapter.CreateNdefMessageCallback {
 
     private boolean active1 = false;
     private boolean active2 = false;
