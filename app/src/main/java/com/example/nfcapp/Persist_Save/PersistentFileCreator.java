@@ -1,5 +1,7 @@
 package com.example.nfcapp.Persist_Save;
 
+import com.example.nfcapp.BCardObject.UserObject;
+
 public interface PersistentFileCreator {
 
     String FILE_PATH_PREFIX = "./temp/";

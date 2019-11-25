@@ -1,18 +1,26 @@
-package com.example.nfcapp.Persist_Save;
+package com.example.nfcapp.BCardObject;
+
+import android.graphics.Bitmap;
+import android.graphics.Picture;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserObject {
+public abstract class BCardObject {
+
     private int id;
+
+    private Bitmap bitmapImage;
     private String name;
+    private String position;
+
     private List<String> phoneNumber = new ArrayList<>();
     private List<String> email = new ArrayList<>();
-    private UserObject userObject;
 
-    UserObject(int id, String name) {
+    BCardObject (int id, String name, String position) {
         this.id = id;
         this.name = name;
+        this.position = position;
     }
 
     public int getId() {
@@ -25,6 +33,18 @@ public class UserObject {
 
     public void editName(String name) {
         this.name = name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public String[] getmail() {
@@ -43,25 +63,29 @@ public class UserObject {
         this.phoneNumber.add(phoneNumber);
     }
 
-    public void addUO(UserObject userObject) {
-        this.userObject = userObject;
+    public void addPicture(Picture bitmap) {
+
     }
 
     @Override
     public String toString() {
-        return "UserObject{" +
-                "id=" + id +
+        return "BCardObject{" +
+                  "id=" + id +
+                ", picture=" + bitmapImage +
                 ", name='" + name + '\'' +
+                ", position='" + position + '\'' +
                 ", phoneNumber=" + phoneNumber +
                 ", email=" + email +
-                ", userObject=" + userObject +
                 '}';
     }
 
-    public String toReadableString() {
+    public String toTerminalString() {
+
         StringBuilder sb = new StringBuilder();
+
         sb.append("ID => " + id + "\n");
         sb.append("Name => " + name + "\n");
+        sb.append("Position => "+ position + "\n");
 
         //PhoneNumber
         sb.append("phoneNumbers: \n");
