@@ -1,8 +1,5 @@
 package com.example.nfcapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -18,6 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -92,11 +92,11 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.OnNdef
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txtBoxAddMessage = (EditText) findViewById(R.id.txtBoxAddMessage);
-        txtBoxAddMessage2 = (EditText) findViewById(R.id.txtBoxAddMessage2);
-        txtMessagesToSend = (TextView) findViewById(R.id.txtMessageToSend);
-        txtReceivedMessages = (TextView) findViewById(R.id.txtMessagesReceived);
-        final Button btnAddMessage = (Button) findViewById(R.id.buttonAddMessage);
+        txtBoxAddMessage = findViewById(R.id.txtBoxAddMessage);
+        txtBoxAddMessage2 = findViewById(R.id.txtBoxAddMessage2);
+        txtMessagesToSend = findViewById(R.id.txtMessageToSend);
+        txtReceivedMessages = findViewById(R.id.txtMessagesReceived);
+        final Button btnAddMessage = findViewById(R.id.buttonAddMessage);
 
         btnAddMessage.setClickable(false);
 
