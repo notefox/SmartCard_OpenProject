@@ -1,19 +1,14 @@
 package com.example.nfcapp;
 
 import com.example.nfcapp.BCardObject.BCardObject;
-import com.example.nfcapp.BCardObject.UserObject;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-
-import static org.junit.Assert.*;
-
 public class UserInterfaceTests {
 
-    BCardObject uo = new UserObject();
+    //BCardObject uo = new BCardObject();
     UserInterface ui = new UIMock();
 
 
@@ -27,11 +22,11 @@ public class UserInterfaceTests {
 
     }
 
-    @Test
+    /*@Test
     public void addNewBCard() {
         uo.addMail("test.mail@something.com");
         uo.addNumber("03056698323");
-    }
+    }*/
 
     @Test
     public void addToFav() {

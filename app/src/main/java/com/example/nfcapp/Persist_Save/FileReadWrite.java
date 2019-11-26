@@ -1,6 +1,6 @@
 package com.example.nfcapp.Persist_Save;
 
-import com.example.nfcapp.BCardObject.UserObject;
+import com.example.nfcapp.BCardObject.BCardObject;
 import com.google.gson.Gson;
 
 import java.io.*;
@@ -11,7 +11,7 @@ public class FileReadWrite implements PersistentFileCreator {
     private Gson gson;
 
     @Override
-    public void createDesktopFile(UserObject thing, String name) throws Exception {
+    public void createDesktopFile(BCardObject thing, String name) throws Exception {
 
         if (new File("./temp/" + name).exists())
             throw new Exception("File already exists");
@@ -32,7 +32,7 @@ public class FileReadWrite implements PersistentFileCreator {
     }
 
     @Override
-    public UserObject getDesktopFile(String name) throws Exception {
+    public BCardObject getDesktopFile(String name) throws Exception {
 
         gson = new Gson();
 
@@ -41,12 +41,12 @@ public class FileReadWrite implements PersistentFileCreator {
         FileInputStream fis = new FileInputStream(get);
         DataInputStream dis = new DataInputStream(fis);
 
-        return gson.fromJson(dis.readUTF(), UserObject.class);
+        return gson.fromJson(dis.readUTF(), BCardObject.class);
     }
 
     @Override
-    public UserObject[] getAllExistingFiles() throws Exception {
-        Collection<UserObject> all = new ArrayList<>();
+    public BCardObject[] getAllExistingFiles() throws Exception {
+        Collection<BCardObject> all = new ArrayList<>();
         throw new UnsupportedOperationException("not implemented yet");
     }
 
