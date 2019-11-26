@@ -19,6 +19,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
@@ -42,10 +44,15 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.OnNdef
 
     //Buttom addMessage
     public void addMessage(View view) {
-        String newMessage = txtBoxAddMessage.getText().toString();
+        String s = txtBoxAddMessage.getText().toString();
+        int i = Integer.valueOf(txtBoxAddMessage2.getText().toString());
+        testObject t = new testObject(s, i);
+        Gson message = new Gson();
+        String newMessage = message.toJson(t);
         messagesToSendArray.add(newMessage);
 
         txtBoxAddMessage.setText(null);
+        txtBoxAddMessage2.setText(null);
         updateTextViews();
 
         Toast.makeText(this, "Added Message", Toast.LENGTH_LONG).show();
