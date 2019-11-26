@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserObject extends BCardObject {
-    UserObject(int id, String name) {
-        super(id, name);
+    public UserObject() {
+        super();
+    }
+    public UserObject(int id, String name, String position) {
+        super(id, name, position);
     }
 }

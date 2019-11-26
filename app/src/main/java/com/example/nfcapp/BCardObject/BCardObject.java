@@ -3,12 +3,14 @@ package com.example.nfcapp.BCardObject;
 import android.graphics.Bitmap;
 import android.graphics.Picture;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public abstract class BCardObject {
 
-    private int id;
+    private int id; //
 
     private Bitmap bitmapImage;
     private String name;
@@ -16,6 +18,12 @@ public abstract class BCardObject {
 
     private List<String> phoneNumber = new ArrayList<>();
     private List<String> email = new ArrayList<>();
+
+    BCardObject() {
+        this.id = new Random().nextInt();
+        this.name = new Integer(new Random().nextInt()).toString();
+        this.position = new Integer(new Random().nextInt()).toString();
+    }
 
     BCardObject (int id, String name, String position) {
         this.id = id;
@@ -63,8 +71,15 @@ public abstract class BCardObject {
         this.phoneNumber.add(phoneNumber);
     }
 
-    public void addPicture(Picture bitmap) {
+    public void addPicture(File picture) {
 
+    }
+
+    boolean hasPicture() {
+        if (bitmapImage == null)
+            return false;
+
+        return true;
     }
 
     @Override
@@ -83,18 +98,19 @@ public abstract class BCardObject {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append("ID => " + id + "\n");
-        sb.append("Name => " + name + "\n");
-        sb.append("Position => "+ position + "\n");
+        sb.append("ID : " + id + "\n");
+        sb.append("Name : " + name + "\n");
+        sb.append("Position : "+ position + "\n");
+        sb.append("hasPicture : " + hasPicture() + "\n");
 
         //PhoneNumber
-        sb.append("phoneNumbers: \n");
+        sb.append("phoneNumbers : \n");
         for (int i = 0; i < phoneNumber.size(); i++) {
             sb.append(" " + (i+1) + " | " + phoneNumber.get(i) + "\n");
         }
 
         //email
-        sb.append("email: " + "\n");
+        sb.append("email : " + "\n");
         for (int i = 0; i < email.size(); i++) {
             sb.append(" " + (i+1) + " | " + email.get(i) + "\n");
         }

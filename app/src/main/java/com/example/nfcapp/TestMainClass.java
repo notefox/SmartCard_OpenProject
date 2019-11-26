@@ -1,10 +1,8 @@
 package com.example.nfcapp;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 
-public class Test {
+public class TestMainClass {
 
     public String test = "dass";
     public int testInt = 4234;
@@ -13,11 +11,11 @@ public class Test {
 
         Gson bla = new Gson();
 
-        String a = bla.toJson(new Test());
+        String a = bla.toJson(new TestMainClass());
 
         System.out.println(a);
 
-        Test b = bla.fromJson(a, Test.class);
+        TestMainClass b = bla.fromJson(a, TestMainClass.class);
 
         System.out.println(b.testInt + 100000);
 
