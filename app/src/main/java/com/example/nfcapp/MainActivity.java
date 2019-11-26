@@ -19,10 +19,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements NfcAdapter.OnNdefPushCompleteCallback, NfcAdapter.CreateNdefMessageCallback {
+public class MainActivity extends AppCompatActivity implements NfcAdapter.OnNdefPushCompleteCallback,
+        NfcAdapter.CreateNdefMessageCallback {
 
     private boolean active1 = false;
     private boolean active2 = false;
@@ -39,23 +42,31 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.OnNdef
 
     private NfcAdapter mNfcAdapter;
 
+    //Buttom addMessage
     public void addMessage(View view) {
-        String newMessage = txtBoxAddMessage.getText().toString();
+        String s1 = txtBoxAddMessage.getText().toString();
+        String s2 = txtBoxAddMessage2.getText().toString();
+        //int i = Integer.valueOf(txtBoxAddMessage2.getText().toString());
+        testObject t = new testObject(s1, s2);
+        Gson g = new Gson();
+        String newMessage = g.toJson(t);
         messagesToSendArray.add(newMessage);
 
         txtBoxAddMessage.setText(null);
+        txtBoxAddMessage2.setText(null);
         updateTextViews();
 
         Toast.makeText(this, "Added Message", Toast.LENGTH_LONG).show();
     }
 
 
-    private  void updateTextViews() {
+    private void updateTextViews() {
         txtMessagesToSend.setText("Messages To Send:\n");
         //Populate Our list of messages we want to send
         if(messagesToSendArray.size() > 0) {
             for (int i = 0; i < messagesToSendArray.size(); i++) {
-                txtMessagesToSend.append(messagesToSendArray.get(i));
+                //txtMessagesToSend.append(messagesToSendArray.get(i));
+                txtMessagesToSend.append(getJson(messagesToSendArray.get(i)));
                 txtMessagesToSend.append("\n");
             }
         }
@@ -64,10 +75,17 @@ public class MainActivity extends AppCompatActivity implements NfcAdapter.OnNdef
         //Populate our list of messages we have received
         if (messagesReceivedArray.size() > 0) {
             for (int i = 0; i < messagesReceivedArray.size(); i++) {
-                txtReceivedMessages.append(messagesReceivedArray.get(i));
+                txtReceivedMessages.append(getJson(messagesReceivedArray.get(i)));
                 txtReceivedMessages.append("\n");
             }
         }
+    }
+
+    private String getJson(String s) {
+        Gson g = new Gson();
+        testObject t = g.fromJson(s, testObject.class);
+        //String message = "Text1: " + t.get1() + "\n";
+        return "Text1: " + t.get1() + "\n" + "Text2: " + t.get2() + "\n";
     }
 
     //Save our Array Lists of Messages for if the user navigates away
