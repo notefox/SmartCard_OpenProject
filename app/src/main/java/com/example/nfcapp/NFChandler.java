@@ -1,5 +1,6 @@
 package com.example.nfcapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -22,6 +23,32 @@ public class NFChandler extends Fragment implements NfcAdapter.OnNdefPushComplet
     private ArrayList<String> messagesReceivedArray = new ArrayList<>();
 
     private NfcAdapter mNfcAdapter;
+
+    public NFChandler(NfcAdapter adapter) {
+        mNfcAdapter = adapter;
+    }
+
+    public void checkNFC(Activity activity) {
+        if(mNfcAdapter != null) {
+            //This will refer back to createNdefMessage for what it will send
+            mNfcAdapter.setNdefPushMessageCallback(this, activity);
+
+            //This will be called if the message is sent successfully
+            mNfcAdapter.setOnNdefPushCompleteCallback(this, activity);
+        }
+        else {
+            Toast.makeText(activity, "NFC not available on this device",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void addMessageToSend(String newMessage) {
+        messagesToSendArray.add(newMessage);
+    }
+
+    public ArrayList<String> getMessagesReceived() {
+        return this.messagesReceivedArray;
+    }
 
     public NdefRecord[] createRecords() {
 
@@ -55,7 +82,7 @@ public class NFChandler extends Fragment implements NfcAdapter.OnNdefPushComplet
         return records;
     }
 
-    private void handleNfcIntent(Intent NfcIntent) {
+    public void handleNfcIntent(Intent NfcIntent) {
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(NfcIntent.getAction())) {
             Parcelable[] receivedArray =
                     NfcIntent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
