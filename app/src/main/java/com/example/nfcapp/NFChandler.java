@@ -22,13 +22,16 @@ public class NFChandler extends Fragment implements NfcAdapter.OnNdefPushComplet
     private ArrayList<String> messagesToSendArray = new ArrayList<>();
     private ArrayList<String> messagesReceivedArray = new ArrayList<>();
 
+    private Activity activity;
+
     private NfcAdapter mNfcAdapter;
 
-    public NFChandler(NfcAdapter adapter) {
-        mNfcAdapter = adapter;
+    public NFChandler(Activity act, NfcAdapter adapter) {
+        this.activity = act;
+        this.mNfcAdapter = adapter;
     }
 
-    public void checkNFC(Activity activity) {
+    public void checkNFC() {
         if(mNfcAdapter != null) {
             //This will refer back to createNdefMessage for what it will send
             mNfcAdapter.setNdefPushMessageCallback(this, activity);
@@ -78,7 +81,7 @@ public class NFChandler extends Fragment implements NfcAdapter.OnNdefPushComplet
             }
         }
         records[messagesToSendArray.size()] =
-                NdefRecord.createApplicationRecord(getActivity().getPackageName());
+                NdefRecord.createApplicationRecord(activity.getPackageName());
         return records;
     }
 
@@ -95,15 +98,15 @@ public class NFChandler extends Fragment implements NfcAdapter.OnNdefPushComplet
                 for (NdefRecord record:attachedRecords) {
                     String string = new String(record.getPayload());
                     //Make sure we don't pass along our AAR (Android Application Record)
-                    if (string.equals(getActivity().getPackageName())) { continue; }
+                    if (string.equals(activity.getPackageName())) { continue; }
                     messagesReceivedArray.add(string);
                 }
-                Toast.makeText(getActivity(), "Received " + messagesReceivedArray.size() +
+                Toast.makeText(activity, "Received " + messagesReceivedArray.size() +
                         " Messages", Toast.LENGTH_LONG).show();
                 //updateTextViews();
             }
             else {
-                Toast.makeText(getActivity(), "Received Blank Parcel", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Received Blank Parcel", Toast.LENGTH_LONG).show();
             }
         }
     }
