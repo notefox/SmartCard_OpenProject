@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.nfcapp.NFC.NFCHandler;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtMessagesToSend;
 
     private NfcAdapter mNfcAdapter;
-    private NFChandler nfc;
+    private NFCHandler nfc;
 
     //Buttom addMessage
     public void addMessage(View view) {
@@ -164,24 +165,31 @@ public class MainActivity extends AppCompatActivity {
 
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        nfc = new NFChandler(this, mNfcAdapter);
-        //Check if NFC is available on device
-        nfc.checkNFC();
+        nfc = new NFCHandler(this, mNfcAdapter);
+
+        nfc.checkNFC(); //Check if NFC is available on device
     }
 
     @Override
     public void onNewIntent(Intent intent) {
+
+        //TODO combine handleNfcIntent and getMessagesReceived together
         nfc.handleNfcIntent(intent);
         messagesReceivedArray = nfc.getMessagesReceived();
+
         updateTextViews();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        updateTextViews();
+
+        updateTextViews(); //TODO, test if this one is too much updating
+
+        //TODO handleNfcIntent und getMessagesRecived zusammenfügen
         nfc.handleNfcIntent(getIntent());
         messagesReceivedArray = nfc.getMessagesReceived();
+
         updateTextViews();
     }
 }

@@ -31,37 +31,28 @@ public class NFCHandler extends Fragment implements NfcAdapter.OnNdefPushComplet
         this.mNfcAdapter = adapter;
     }
 
-    /**
-     * Check if NFC is available on device
-     * @return true if NFC is available on device
-     */
-    public boolean checkNFC() {
+    public void checkNFC() {
         if(mNfcAdapter != null) {
             //This will refer back to createNdefMessage for what it will send
             mNfcAdapter.setNdefPushMessageCallback(this, activity);
 
             //This will be called if the message is sent successfully
             mNfcAdapter.setOnNdefPushCompleteCallback(this, activity);
-
-            return true;
         }
         else {
-            return false;
+            Toast.makeText(activity, "NFC not available on this device",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
-    /**
-     * Add a message to ArrayList
-     * @param newMessage String
-     */
     public void addMessageToSend(String newMessage) {
         messagesToSendArray.add(newMessage);
     }
 
-    /**
-     * Converts messages to NdefRecord
-     * @return NdefRecord
-     */
+    public ArrayList<String> getMessagesReceived() {
+        return this.messagesReceivedArray;
+    }
+
     private NdefRecord[] createRecords() {
 
         NdefRecord[] records = new NdefRecord[messagesToSendArray.size() + 1];
@@ -94,12 +85,7 @@ public class NFCHandler extends Fragment implements NfcAdapter.OnNdefPushComplet
         return records;
     }
 
-    /**
-     * Read NdefMessage and write in ArrayList
-     * @param NfcIntent Intent
-     * @return received messages as ArrayList
-     */
-    public ArrayList<String> handleNfcIntent(Intent NfcIntent) {
+    public void handleNfcIntent(Intent NfcIntent) {
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(NfcIntent.getAction())) {
             Parcelable[] receivedArray =
                     NfcIntent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
@@ -117,12 +103,12 @@ public class NFCHandler extends Fragment implements NfcAdapter.OnNdefPushComplet
                 }
                 Toast.makeText(activity, "Received " + messagesReceivedArray.size() +
                         " Messages", Toast.LENGTH_LONG).show();
+                //updateTextViews();
             }
             else {
                 Toast.makeText(activity, "Received Blank Parcel", Toast.LENGTH_LONG).show();
             }
         }
-        return this.messagesReceivedArray;
     }
 
     @Override
