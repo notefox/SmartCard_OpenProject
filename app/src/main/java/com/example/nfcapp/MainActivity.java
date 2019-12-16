@@ -3,8 +3,7 @@ package com.example.nfcapp;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.nfcapp.BCardObject.UserObject;
 import com.example.nfcapp.NFC.NFCHandler;
 import com.google.gson.Gson;
 
@@ -21,39 +21,48 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private boolean active1 = false;
-    private boolean active2 = false;
+    private UserObject card;
+    private int id = 0;
 
     //The array lists to hold our messages
     private ArrayList<String> messagesToSendArray = new ArrayList<>();
     private ArrayList<String> messagesReceivedArray = new ArrayList<>();
 
     //Text boxes to add and display our messages
-    private EditText txtBoxAddMessage;
+    private EditText txtBoxAddMessage1;
     private EditText txtBoxAddMessage2;
+    private EditText txtBoxAddMessage3;
+    private EditText txtBoxAddMessage4;
     private TextView txtReceivedMessages;
     private TextView txtMessagesToSend;
+    private Button btnAddMessage;
 
     private NfcAdapter mNfcAdapter;
     private NFCHandler nfc;
 
     //Buttom addMessage
     public void addMessage(View view) {
-        String s1 = txtBoxAddMessage.getText().toString();
+        String s1 = txtBoxAddMessage1.getText().toString();
         String s2 = txtBoxAddMessage2.getText().toString();
-        testObject t = new testObject(s1, s2);
+        String s3 = txtBoxAddMessage3.getText().toString();
+        String s4 = txtBoxAddMessage4.getText().toString();
+        id++;
+        card = new UserObject(id, s1, s2);
+        card.addNumber(s3);
+        card.addMail(s4);
         Gson g = new Gson();
-        String newMessage = g.toJson(t);
+        String newMessage = g.toJson(card);
         messagesToSendArray.add(newMessage);
         nfc.addMessageToSend(newMessage);
 
-        txtBoxAddMessage.setText(null);
+        txtBoxAddMessage1.setText(null);
         txtBoxAddMessage2.setText(null);
+        txtBoxAddMessage3.setText(null);
+        txtBoxAddMessage4.setText(null);
         updateTextViews();
 
         Toast.makeText(this, "Added Message", Toast.LENGTH_LONG).show();
     }
-
 
     private void updateTextViews() {
         txtMessagesToSend.setText("Messages To Send:\n");
@@ -77,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String getJson(String s) {
         Gson g = new Gson();
-        testObject t = g.fromJson(s, testObject.class);
-        return "Text1: " + t.get1() + "\n" + "Text2: " + t.get2() + "\n";
+        UserObject temp = g.fromJson(s, UserObject.class);
+        return "ID: " + temp.getId() + "\n" + "Name: " + temp.getName() + "\n"+ "Phone: " + temp.getNumber1() + "\n"+ "Email: " + temp.getEmail1() + "\n";
     }
 
     //Save our Array Lists of Messages for if the user navigates away
@@ -102,93 +111,51 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txtBoxAddMessage = findViewById(R.id.txtBoxAddMessage);
+        txtBoxAddMessage1 = findViewById(R.id.txtBoxAddMessage1);
         txtBoxAddMessage2 = findViewById(R.id.txtBoxAddMessage2);
+        txtBoxAddMessage3 = findViewById(R.id.txtBoxAddMessage3);
+        txtBoxAddMessage4 = findViewById(R.id.txtBoxAddMessage4);
         txtMessagesToSend = findViewById(R.id.txtMessageToSend);
         txtReceivedMessages = findViewById(R.id.txtMessagesReceived);
-        final Button btnAddMessage = findViewById(R.id.buttonAddMessage);
+        btnAddMessage = findViewById(R.id.buttonAddMessage);
 
         btnAddMessage.setClickable(false);
 
-        txtBoxAddMessage.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.length() > 0) {
-                    active1 = true;
-                    if (active2)
-                        btnAddMessage.setClickable(true);
-                }
-                else {
-                    active1 = false;
-                    btnAddMessage.setClickable(false);
-                }
-            }
-        });
-
-        txtBoxAddMessage2.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.length() > 0) {
-                    active2 = true;
-                    if (active1)
-                        btnAddMessage.setClickable(true);
-                }
-                else {
-                    active2 = false;
-                    btnAddMessage.setClickable(false);
-                }
-            }
-        });
-
         btnAddMessage.setText("Add Message");
+
+        final ButtonControl control = new ButtonControl(findViewById(R.id.txtBoxAddMessage1)
+                                                        , findViewById(R.id.txtBoxAddMessage2)
+                                                        , findViewById(R.id.txtBoxAddMessage3)
+                                                        , findViewById(R.id.txtBoxAddMessage4)
+                                                        , findViewById(R.id.buttonAddMessage));
+
+        txtBoxAddMessage1.addTextChangedListener(control);
+        txtBoxAddMessage2.addTextChangedListener(control);
+        txtBoxAddMessage3.addTextChangedListener(control);
+        txtBoxAddMessage4.addTextChangedListener(control);
         updateTextViews();
 
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         nfc = new NFCHandler(this, mNfcAdapter);
 
-        nfc.checkNFC(); //Check if NFC is available on device
+        //Check if NFC is available on device
+        if (!nfc.checkNFC()) {
+            Toast.makeText(this, "NFC not available on this device",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onNewIntent(Intent intent) {
-
-        //TODO combine handleNfcIntent and getMessagesReceived together
-        nfc.handleNfcIntent(intent);
-        messagesReceivedArray = nfc.getMessagesReceived();
-
+        messagesReceivedArray = nfc.handleNfcIntent(intent);
         updateTextViews();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        updateTextViews(); //TODO, test if this one is too much updating
-
-        //TODO handleNfcIntent und getMessagesRecived zusammenfügen
-        nfc.handleNfcIntent(getIntent());
-        messagesReceivedArray = nfc.getMessagesReceived();
+        messagesReceivedArray = nfc.handleNfcIntent(getIntent());
 
         updateTextViews();
     }
