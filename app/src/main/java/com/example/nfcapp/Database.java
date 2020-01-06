@@ -1,6 +1,8 @@
 package com.example.nfcapp;
 
 import android.app.Application;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.nfcapp.BusinessCardDir.BusinessCardItem;
@@ -12,6 +14,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.AbstractList;
 import java.util.Vector;
+
+import static android.content.ContentValues.TAG;
 
 public class Database extends Application {
     private static final String BC_FILE_SUFFIX = ".bcf";
@@ -33,6 +37,9 @@ public class Database extends Application {
     public static void addItem(BusinessCardItem item) {
         Database.itemList.add(item);
     }
+    public static void addFav(BusinessCardItem item) {
+        Database.itemList_fav.add(item);
+    }
 
     public static AbstractList<BusinessCardItem> getItemList() {
         return itemList;
@@ -44,5 +51,10 @@ public class Database extends Application {
 
     public static String getBcFileSuffix() {
         return BC_FILE_SUFFIX;
+    }
+
+    public static void remFav(BusinessCardItem item) {
+        if (Database.itemList_fav.remove(item))
+            Log.e(TAG, "remFav: could not remove favourite " + item.getName());
     }
 }

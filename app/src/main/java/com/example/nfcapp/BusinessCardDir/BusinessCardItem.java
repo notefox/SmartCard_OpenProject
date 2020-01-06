@@ -3,6 +3,8 @@ package com.example.nfcapp.BusinessCardDir;
 import android.graphics.Bitmap;
 import android.location.Address;
 
+import com.example.nfcapp.Database;
+
 public class BusinessCardItem {
 
     private Bitmap bitmapImage;
@@ -14,6 +16,8 @@ public class BusinessCardItem {
     private String Address;
     private String phoneNumber;
     private String email;
+
+    private boolean favourite = false;
 
     public BusinessCardItem(Bitmap bitmapImage, String name, String companyName, CorporateTitle position) {
         this.bitmapImage = bitmapImage;
@@ -88,6 +92,15 @@ public class BusinessCardItem {
         return true;
     }
 
+    public void setAsFavourite() {
+        this.favourite = true;
+        Database.addFav(this);
+    }
+
+    public void removeFromFavourite() {
+        this.favourite = false;
+        Database.remFav(this);
+    }
 
     @Override
     public String toString() {
