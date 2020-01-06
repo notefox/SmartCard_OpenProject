@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="4sp">
+
+        <ImageView
+            android:id="@+id/bc_item_companyImage"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:padding="2sp" />
+
+        <TextView
+            android:id="@+id/bc_item_Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/bc_item_companyImage"
+            android:layout_toRightOf="@id/bc_item_companyImage"
+
+            android:text="@string/business_card_retracted_name_filler"
+
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/bc_item_companyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/business_card_retracted_companyName_filler"
+
+            android:textSize="15sp"
+            android:layout_below="@id/bc_item_Name"
+            android:layout_toEndOf="@id/bc_item_companyImage"
+            android:layout_toRightOf="@id/bc_item_companyImage"
+
+            android:layout_marginStart="8sp"
+            android:layout_marginLeft="8sp" />
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

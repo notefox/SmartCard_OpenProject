@@ -1,3 +1,17 @@
 <resources>
-    <string name="app_name">NFCMessenger</string>
+    <string name="app_name">My Application</string>
+
+    <string name="nav_home_title">home</string>
+
+    <string name="nav_list_title">List</string>
+    <string name="nav_settings_title">Settings</string>
+    <string name="nav_favourites_title">Favourites</string>
+
+    <string name="overhead_rec_bc_text">Received Business Cards</string>
+    <string name="overhead_fav_bc_text">Favourites</string>
+    <string name="settings_title_text">Settings</string>
+
+    <string name="business_card_retracted_name_filler">Name</string>
+    <string name="business_card_retracted_companyName_filler">CompanyName</string>
+
 </resources>

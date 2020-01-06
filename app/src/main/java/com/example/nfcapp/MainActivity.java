@@ -1,277 +1,55 @@
 package com.example.nfcapp;
 
-import android.content.Intent;
-import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
-import android.nfc.NfcAdapter;
-import android.nfc.NfcEvent;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-import com.google.gson.Gson;
+import com.example.nfcapp.FavouritesFragmentDir.FavouritesFragment;
+import com.example.nfcapp.HomeFragmentDir.HomeFragment;
+import com.example.nfcapp.SettingsFragmentDir.SettingsFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-
-public class MainActivity extends AppCompatActivity implements NfcAdapter.OnNdefPushCompleteCallback,
-        NfcAdapter.CreateNdefMessageCallback {
-
-    private boolean active1 = false;
-    private boolean active2 = false;
-
-    //The array lists to hold our messages
-    private ArrayList<String> messagesToSendArray = new ArrayList<>();
-    private ArrayList<String> messagesReceivedArray = new ArrayList<>();
-
-    //Text boxes to add and display our messages
-    private EditText txtBoxAddMessage;
-    private EditText txtBoxAddMessage2;
-    private TextView txtReceivedMessages;
-    private TextView txtMessagesToSend;
-
-    private NfcAdapter mNfcAdapter;
-
-    //Buttom addMessage
-    public void addMessage(View view) {
-        String s1 = txtBoxAddMessage.getText().toString();
-        String s2 = txtBoxAddMessage2.getText().toString();
-        //int i = Integer.valueOf(txtBoxAddMessage2.getText().toString());
-        testObject t = new testObject(s1, s2);
-        Gson g = new Gson();
-        String newMessage = g.toJson(t);
-        messagesToSendArray.add(newMessage);
-
-        txtBoxAddMessage.setText(null);
-        txtBoxAddMessage2.setText(null);
-        updateTextViews();
-
-        Toast.makeText(this, "Added Message", Toast.LENGTH_LONG).show();
-    }
-
-
-    private void updateTextViews() {
-        txtMessagesToSend.setText("Messages To Send:\n");
-        //Populate Our list of messages we want to send
-        if(messagesToSendArray.size() > 0) {
-            for (int i = 0; i < messagesToSendArray.size(); i++) {
-                //txtMessagesToSend.append(messagesToSendArray.get(i));
-                txtMessagesToSend.append(getJson(messagesToSendArray.get(i)));
-                txtMessagesToSend.append("\n");
-            }
-        }
-
-        txtReceivedMessages.setText("Messages Received:\n");
-        //Populate our list of messages we have received
-        if (messagesReceivedArray.size() > 0) {
-            for (int i = 0; i < messagesReceivedArray.size(); i++) {
-                txtReceivedMessages.append(getJson(messagesReceivedArray.get(i)));
-                txtReceivedMessages.append("\n");
-            }
-        }
-    }
-
-    private String getJson(String s) {
-        Gson g = new Gson();
-        testObject t = g.fromJson(s, testObject.class);
-        //String message = "Text1: " + t.get1() + "\n";
-        return "Text1: " + t.get1() + "\n" + "Text2: " + t.get2() + "\n";
-    }
-
-    //Save our Array Lists of Messages for if the user navigates away
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putStringArrayList("messagesToSend", messagesToSendArray);
-        savedInstanceState.putStringArrayList("lastMessagesReceived",messagesReceivedArray);
-    }
-
-    //Load our Array Lists of Messages for when the user navigates back
-    @Override
-    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        messagesToSendArray = savedInstanceState.getStringArrayList("messagesToSend");
-        messagesReceivedArray = savedInstanceState.getStringArrayList("lastMessagesReceived");
-    }
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txtBoxAddMessage = findViewById(R.id.txtBoxAddMessage);
-        txtBoxAddMessage2 = findViewById(R.id.txtBoxAddMessage2);
-        txtMessagesToSend = findViewById(R.id.txtMessageToSend);
-        txtReceivedMessages = findViewById(R.id.txtMessagesReceived);
-        final Button btnAddMessage = findViewById(R.id.buttonAddMessage);
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav_view);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        btnAddMessage.setClickable(false);
+    }
 
-        txtBoxAddMessage.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment selectedFragment = null;
 
+            switch (item.getItemId()){
+                case R.id.nav_home:
+                    selectedFragment = new HomeFragment();
+                    break;
+
+                case R.id.nav_fav:
+                    selectedFragment = new FavouritesFragment();
+                    break;
+
+                case R.id.nav_settings:
+                    selectedFragment = new SettingsFragment();
+                    break;
             }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            if (selectedFragment == null) {
+                return false;
             }
 
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.length() > 0) {
-                    active1 = true;
-                    if (active2)
-                        btnAddMessage.setClickable(true);
-                }
-                else {
-                    active1 = false;
-                    btnAddMessage.setClickable(false);
-                }
-            }
-        });
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
 
-        txtBoxAddMessage2.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.length() > 0) {
-                    active2 = true;
-                    if (active1)
-                        btnAddMessage.setClickable(true);
-                }
-                else {
-                    active2 = false;
-                    btnAddMessage.setClickable(false);
-                }
-            }
-        });
-
-        btnAddMessage.setText("Add Message");
-        updateTextViews();
-
-        //Check if NFC is available on device
-        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        if(mNfcAdapter != null) {
-            //This will refer back to createNdefMessage for what it will send
-            mNfcAdapter.setNdefPushMessageCallback(this, this);
-
-            //This will be called if the message is sent successfully
-            mNfcAdapter.setOnNdefPushCompleteCallback(this, this);
+            return true;
         }
-        else {
-            Toast.makeText(this, "NFC not available on this device",
-                    Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public NdefRecord[] createRecords() {
-
-        NdefRecord[] records = new NdefRecord[messagesToSendArray.size() + 1];
-        //To Create Messages Manually if API is less than
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            for (int i = 0; i < messagesToSendArray.size(); i++){
-                byte[] payload = messagesToSendArray.get(i).
-                        getBytes(Charset.forName("UTF-8"));
-                NdefRecord record = new NdefRecord(
-                        NdefRecord.TNF_WELL_KNOWN,      //Our 3-bit Type name format
-                        NdefRecord.RTD_TEXT,            //Description of our payload
-                        new byte[0],                    //The optional id for our Record
-                        payload);                       //Our payload for the Record
-
-                records[i] = record;
-            }
-        }
-        //Api is high enough that we can use createMime, which is preferred.
-        else {
-            for (int i = 0; i < messagesToSendArray.size(); i++){
-                byte[] payload = messagesToSendArray.get(i).
-                        getBytes(Charset.forName("UTF-8"));
-
-                NdefRecord record = NdefRecord.createMime("text/plain",payload);
-                records[i] = record;
-            }
-        }
-        records[messagesToSendArray.size()] =
-                NdefRecord.createApplicationRecord(getPackageName());
-        return records;
-    }
-
-    private void handleNfcIntent(Intent NfcIntent) {
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(NfcIntent.getAction())) {
-            Parcelable[] receivedArray =
-                    NfcIntent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-
-            if(receivedArray != null) {
-                messagesReceivedArray.clear();
-                NdefMessage receivedMessage = (NdefMessage) receivedArray[0];
-                NdefRecord[] attachedRecords = receivedMessage.getRecords();
-
-                for (NdefRecord record:attachedRecords) {
-                    String string = new String(record.getPayload());
-                    //Make sure we don't pass along our AAR (Android Application Record)
-                    if (string.equals(getPackageName())) { continue; }
-                    messagesReceivedArray.add(string);
-                }
-                Toast.makeText(this, "Received " + messagesReceivedArray.size() +
-                        " Messages", Toast.LENGTH_LONG).show();
-                updateTextViews();
-            }
-            else {
-                Toast.makeText(this, "Received Blank Parcel", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-
-    @Override
-    public void onNewIntent(Intent intent) {
-        handleNfcIntent(intent);
-    }
-
-    @Override
-    public NdefMessage createNdefMessage(NfcEvent nfcEvent) {
-        //This will be called when another NFC capable device is detected.
-        if (messagesToSendArray.size() == 0) {
-            return null;
-        }
-        //We'll write the createRecords() method in just a moment
-        NdefRecord[] recordsToAttach = createRecords();
-        //When creating an NdefMessage we need to provide an NdefRecord[]
-        return new NdefMessage(recordsToAttach);
-    }
-
-    @Override
-    public void onNdefPushComplete(NfcEvent nfcEvent) {
-        //This is called when the system detects that our NdefMessage was
-        //Successfully sent.
-        messagesToSendArray.clear();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateTextViews();
-        handleNfcIntent(getIntent());
-    }
+    };
 }
