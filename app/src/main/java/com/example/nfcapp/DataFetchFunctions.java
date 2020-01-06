@@ -10,6 +10,6 @@ public class DataFetchFunctions {
     private static FileOutputStream fos;
 
     public static void fetchAllCurrentBusinessCards() {
-        
+
     }
 }
