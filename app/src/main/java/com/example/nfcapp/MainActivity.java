@@ -2,6 +2,7 @@ package com.example.nfcapp;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,4 +52,10 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(this, "on pause now", Toast.LENGTH_LONG);
+    }
 }

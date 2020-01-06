@@ -33,9 +33,9 @@ public class ApplicationClass extends Application {
     }
 
     void fetchTestItemList() {
-        Database.addItem(new BusinessCardItem(R.drawable.ic_wallpaper_black_24dp, "person 1", "company 1", CorporateTitle.Chief_executive_officer));
-        Database.addItem(new BusinessCardItem(R.drawable.ic_email_black_24dp, "person 2", "company 2", CorporateTitle.Chief_financial_officer));
-        Database.addItem(new BusinessCardItem(R.drawable.ic_favorite_black_24dp, "person 3", "company 3", CorporateTitle.Chief_operating_officer));
+        //Database.addItem(new BusinessCardItem(, "person 1", "company 1", CorporateTitle.Chief_executive_officer));
+        //Database.addItem(new BusinessCardItem(, "person 2", "company 2", CorporateTitle.Chief_financial_officer));
+        //Database.addItem(new BusinessCardItem(, "person 3", "company 3", CorporateTitle.Chief_operating_officer));
     }
 
     void fetchLocalID() {
@@ -43,14 +43,7 @@ public class ApplicationClass extends Application {
             readLocalID();
             Database.addItem(Database.getLocalID());
         } catch (Exception e) {
-            Log.e(TAG, "onCreate: ", e);
-            try {
-                createNewLocalFile();
-                Database.addItem(Database.getLocalID());
-            } catch (Exception ex) {
-                Log.e(TAG, "onCreate: ", ex);
-                ex.printStackTrace();
-            }
+            Log.e(TAG, "no pre-used File found", e);
         }
     }
 
@@ -69,24 +62,12 @@ public class ApplicationClass extends Application {
 
             Database.setLocalID(gson.fromJson(sb.toString(), BusinessCardItem.class));
             Toast.makeText(this, "localID loaded from " + getFilesDir() + "/" + Database.getLocalBcFileName(), Toast.LENGTH_LONG).show();
-            Toast.makeText(this, Database.getLocalID().toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, sb.toString(), Toast.LENGTH_LONG).show();
         } finally {
             if (fos != null)
             fis.close();
         }
     }
 
-    private void createNewLocalFile() throws IOException {
-        Database.setLocalID(new BusinessCardItem(R.drawable.ic_favorite_black_24dp, "local", "company", CorporateTitle.Chief_product_officer));
-        try {
-            fos = openFileOutput(Database.getLocalBcFileName(), MODE_PRIVATE);
-            fos.write(gson.toJson(Database.getLocalID()).getBytes());
-            Toast.makeText(this, "Saved to " + getFilesDir() + "/" + Database.getLocalBcFileName(), Toast.LENGTH_LONG).show();
-        } finally {
-            if (fos != null) {
-                fos.close();
-            }
-        }
 
-    }
 }

@@ -62,7 +62,6 @@ public class HomeFragment extends Fragment {
         homeRecyclerView.setHasFixedSize(true);
 
         homeLayoutManager = new LinearLayoutManager(this.getActivity());
-        Database.addItem(new BusinessCardItem(R.drawable.ic_wallpaper_black_24dp, "person 1", "company 1", CorporateTitle.Chief_executive_officer));
         homeAdapter = new BCAdapterRetracted(this.getActivity(), Database.getItemList());
 
         homeRecyclerView.setLayoutManager(homeLayoutManager);

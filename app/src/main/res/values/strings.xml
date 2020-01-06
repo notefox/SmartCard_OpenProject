@@ -26,5 +26,6 @@
     <string name="settings_phone_number_text">Phone Number</string>
     <string name="business_card_extended_Number_filler">(No number)</string>
     <string name="settings_apply_button_text">apply</string>
+    <string name="settings_ct_display">Cooperate Title</string>
 
 </resources>

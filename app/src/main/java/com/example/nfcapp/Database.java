@@ -1,13 +1,22 @@
 package com.example.nfcapp;
 
-import com.example.nfcapp.BusinessCardDir.BusinessCardItem;
+import android.app.Application;
+import android.widget.Toast;
 
+import com.example.nfcapp.BusinessCardDir.BusinessCardItem;
+import com.google.gson.Gson;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.AbstractList;
 import java.util.Vector;
 
-public class Database {
+public class Database extends Application {
     private static final String BC_FILE_SUFFIX = ".bcf";
     private static String LOCAL_BC_FILE_NAME = "local" + BC_FILE_SUFFIX;
+
     private static AbstractList<BusinessCardItem> itemList = new Vector<>();
     private static AbstractList<BusinessCardItem> itemList_fav = new Vector<>();
 

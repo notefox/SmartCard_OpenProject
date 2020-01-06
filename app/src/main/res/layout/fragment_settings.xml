@@ -14,7 +14,7 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/overhead_received_text2"
+                android:id="@+id/BC_Extended_Header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -25,8 +25,8 @@
                 android:id="@+id/localID_picture"
                 android:layout_width="match_parent"
                 android:layout_height="174dp"
-                android:layout_below="@id/overhead_received_text2"
-                tools:srcCompat="@tools:sample/backgrounds/scenic[16]" />
+                android:layout_below="@id/BC_Extended_Header"
+                tools:srcCompat="@mipmap/pitcure_not_found_foreground" />
 
             <Button
                 android:id="@+id/settings_add_picture_button"
@@ -154,37 +154,25 @@
                 android:id="@+id/corporate_title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/company_address_text"
+                android:layout_below="@+id/company_phone_number_text"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
-                android:layout_marginStart="43dp"
-                android:layout_marginLeft="43dp"
-                android:layout_marginTop="35dp"
+                android:layout_marginStart="47dp"
+                android:layout_marginLeft="47dp"
+                android:layout_marginTop="39dp"
                 android:text="@string/settings_corporate_title_text"
                 android:textSize="18sp" />
-
-            <Button
-                android:id="@+id/corporate_title_chooser_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/company_address_text_field"
-                android:layout_marginStart="98dp"
-                android:layout_marginLeft="98dp"
-                android:layout_marginTop="14dp"
-                android:layout_toEndOf="@+id/corporate_title_text"
-                android:layout_toRightOf="@+id/corporate_title_text"
-                android:text="@string/settings_corporate_title_button_text" />
 
             <TextView
                 android:id="@+id/company_phone_number_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/corporate_title_text"
+                android:layout_below="@+id/company_address_text"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
-                android:layout_marginStart="43dp"
-                android:layout_marginLeft="43dp"
-                android:layout_marginTop="35dp"
+                android:layout_marginStart="46dp"
+                android:layout_marginLeft="46dp"
+                android:layout_marginTop="34dp"
                 android:text="@string/settings_phone_number_text"
                 android:textSize="18sp" />
 
@@ -192,9 +180,9 @@
                 android:id="@+id/company_phone_text_field"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/corporate_title_chooser_button"
-                android:layout_marginStart="35dp"
-                android:layout_marginLeft="35dp"
+                android:layout_below="@+id/company_address_text_field"
+                android:layout_marginStart="31dp"
+                android:layout_marginLeft="31dp"
                 android:layout_marginTop="15dp"
                 android:layout_toEndOf="@+id/company_phone_number_text"
                 android:layout_toRightOf="@+id/company_phone_number_text"
@@ -202,22 +190,37 @@
                 android:inputType="phone"
                 android:text="@string/business_card_extended_Number_filler" />
 
+            <TextView
+                android:id="@+id/user_ct_display"
+                android:layout_width="213dp"
+                android:layout_height="45dp"
+                android:layout_below="@+id/company_phone_text_field"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_toEndOf="@+id/corporate_title_text"
+                android:layout_toRightOf="@+id/corporate_title_text"
+                android:gravity="center"
+                android:text="@string/settings_ct_display"
+                android:textSize="18sp" />
+
             <Button
                 android:id="@+id/settings_apply_button"
-                android:layout_width="133dp"
+                android:layout_width="148dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/company_phone_text_field"
+                android:layout_below="@+id/corporate_title_text"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginStart="139dp"
-                android:layout_marginLeft="139dp"
-                android:layout_marginTop="26dp"
-                android:layout_marginEnd="139dp"
-                android:layout_marginRight="139dp"
+                android:layout_marginStart="132dp"
+                android:layout_marginLeft="132dp"
+                android:layout_marginTop="75dp"
+                android:layout_marginEnd="131dp"
+                android:layout_marginRight="131dp"
                 android:text="@string/settings_apply_button_text" />
 
         </RelativeLayout>
     </ScrollView>
+
 </RelativeLayout>

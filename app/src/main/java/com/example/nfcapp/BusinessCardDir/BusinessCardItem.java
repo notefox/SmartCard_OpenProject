@@ -1,10 +1,11 @@
 package com.example.nfcapp.BusinessCardDir;
 
+import android.graphics.Bitmap;
 import android.location.Address;
 
 public class BusinessCardItem {
 
-    private int bitmapImage;
+    private Bitmap bitmapImage;
 
     private String name;
     private CorporateTitle position;
@@ -14,17 +15,27 @@ public class BusinessCardItem {
     private String phoneNumber;
     private String email;
 
-    public BusinessCardItem(int bitmapImage, String name, String companyName, CorporateTitle position) {
+    public BusinessCardItem(Bitmap bitmapImage, String name, String companyName, CorporateTitle position) {
         this.bitmapImage = bitmapImage;
         this.companyName = companyName;
         this.name = name;
         this.position = position;
     }
 
-    public int getBitmapImage() {
+    public BusinessCardItem(Bitmap bitmapImage, String name, CorporateTitle position, String companyName, String address, String phoneNumber, String email) {
+        this.bitmapImage = bitmapImage;
+        this.name = name;
+        this.position = position;
+        this.companyName = companyName;
+        Address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
+    public Bitmap getBitmapImage() {
         return bitmapImage;
     }
-    public void setBitmapImage(int bitmapImage) {
+    public void setBitmapImage(Bitmap bitmapImage) {
         this.bitmapImage = bitmapImage;
     }
 
@@ -71,7 +82,7 @@ public class BusinessCardItem {
     }
 
     boolean hasPicture() {
-        if (bitmapImage == 0)
+        if (bitmapImage == null)
             return false;
 
         return true;
@@ -81,7 +92,7 @@ public class BusinessCardItem {
     @Override
     public String toString() {
         return "BCardObject{" +
-                ", picture=" + bitmapImage +
+                ", picture=" + hasPicture() +
                 ", name='" + name + '\'' +
                 ", position='" + position.getShorts() + '\'' +
                 ", phoneNumber=" + phoneNumber +

@@ -1,7 +1,8 @@
 package com.example.nfcapp.BusinessCardDir;
 
-public enum CorporateTitle {
+import java.util.NoSuchElementException;
 
+public enum CorporateTitle {
 
     Chief_business_officer("CBO - Business"),
     Chief_brand_officer ("CBO - Brand"),

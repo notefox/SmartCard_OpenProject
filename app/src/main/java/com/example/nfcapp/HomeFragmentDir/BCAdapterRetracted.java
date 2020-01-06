@@ -57,7 +57,7 @@ public class BCAdapterRetracted extends RecyclerView.Adapter<BCAdapterRetracted.
         BusinessCardItem currentItem = itemList.get(position);
         holder.itemView.setTag(itemList.get(position));
 
-        holder.imageView.setImageResource(currentItem.getBitmapImage());
+        holder.imageView.setImageBitmap(currentItem.getBitmapImage());
         holder.TextView1.setText(currentItem.getName());
         holder.TextView2.setText(currentItem.getCompanyName());
     }
