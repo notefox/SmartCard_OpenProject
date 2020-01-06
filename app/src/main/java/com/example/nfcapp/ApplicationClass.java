@@ -27,12 +27,12 @@ public class ApplicationClass extends Application {
     public void onCreate() {
         super.onCreate();
 
-        fetchItemList();
+        fetchTestItemList();
         fetchLocalID();
 
     }
 
-    void fetchItemList() {
+    void fetchTestItemList() {
         Database.addItem(new BusinessCardItem(R.drawable.ic_wallpaper_black_24dp, "person 1", "company 1", CorporateTitle.Chief_executive_officer));
         Database.addItem(new BusinessCardItem(R.drawable.ic_email_black_24dp, "person 2", "company 2", CorporateTitle.Chief_financial_officer));
         Database.addItem(new BusinessCardItem(R.drawable.ic_favorite_black_24dp, "person 3", "company 3", CorporateTitle.Chief_operating_officer));

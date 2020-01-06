@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.nfcapp.BusinessCardDir.BusinessCardItem;
+import com.example.nfcapp.BusinessCardDir.CorporateTitle;
 import com.example.nfcapp.Database;
 import com.example.nfcapp.R;
 
@@ -60,7 +62,8 @@ public class HomeFragment extends Fragment {
         homeRecyclerView.setHasFixedSize(true);
 
         homeLayoutManager = new LinearLayoutManager(this.getActivity());
-        homeAdapter = new BCAdapterRetracted(this.getActivity(), new Vector<>(Arrays.asList(Database.getItemList())));
+        Database.addItem(new BusinessCardItem(R.drawable.ic_wallpaper_black_24dp, "person 1", "company 1", CorporateTitle.Chief_executive_officer));
+        homeAdapter = new BCAdapterRetracted(this.getActivity(), Database.getItemList());
 
         homeRecyclerView.setLayoutManager(homeLayoutManager);
         homeRecyclerView.setAdapter(homeAdapter);
