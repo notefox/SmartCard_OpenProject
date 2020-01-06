@@ -4,210 +4,220 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-    android:id="@+id/overhead_received_text2"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:text="@string/overhead_settings_text"
-    android:textSize="30sp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    <ImageView
-    android:id="@+id/localID_picture"
-    android:layout_width="match_parent"
-    android:layout_height="174dp"
-    android:layout_below="@id/overhead_received_text2"
-    tools:srcCompat="@tools:sample/backgrounds/scenic[16]" />
+            <TextView
+                android:id="@+id/overhead_received_text2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/overhead_settings_text"
+                android:textSize="30sp" />
 
-    <Button
-    android:id="@+id/settings_add_picture_button"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignBottom="@id/localID_picture"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentRight="true"
-    android:text="@string/settings_add_picture_button" />
+            <ImageView
+                android:id="@+id/localID_picture"
+                android:layout_width="match_parent"
+                android:layout_height="174dp"
+                android:layout_below="@id/overhead_received_text2"
+                tools:srcCompat="@tools:sample/backgrounds/scenic[16]" />
 
-
-    <TextView
-        android:id="@+id/company_name_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/user_name_text"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="39dp"
-        android:layout_marginLeft="39dp"
-        android:layout_marginTop="35dp"
-        android:text="@string/business_card_retracted_companyName_filler"
-        android:textSize="18sp" />
+            <Button
+                android:id="@+id/settings_add_picture_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/localID_picture"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:text="@string/settings_add_picture_button" />
 
 
-    <EditText
-        android:id="@+id/company_name_text_field"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/user_name_text_field"
-        android:layout_marginStart="38dp"
-        android:layout_marginLeft="38dp"
-        android:layout_marginTop="12dp"
-        android:layout_toEndOf="@+id/company_name_text"
-        android:layout_toRightOf="@+id/company_name_text"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="(No name)"
-        android:textSize="18sp" />
+            <TextView
+                android:id="@+id/user_name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/localID_picture"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="76dp"
+                android:layout_marginLeft="76dp"
+                android:layout_marginTop="26dp"
+                android:text="@string/settings_user_name_text"
+                android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/user_name_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/localID_picture"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="76dp"
-        android:layout_marginLeft="76dp"
-        android:layout_marginTop="26dp"
-        android:text="@string/business_card_retracted_name_filler"
-        android:textSize="18sp" />
+            <EditText
+                android:id="@+id/user_name_text_field"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/localID_picture"
+                android:layout_marginStart="79dp"
+                android:layout_marginLeft="79dp"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@+id/user_name_text"
+                android:layout_toRightOf="@+id/user_name_text"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="@string/business_card_retracted_name_filler"
+                android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/user_name_text_field"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/localID_picture"
-        android:layout_marginStart="79dp"
-        android:layout_marginLeft="79dp"
-        android:layout_marginTop="15dp"
-        android:layout_toEndOf="@+id/user_name_text"
-        android:layout_toRightOf="@+id/user_name_text"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="(No name)"
-        android:textSize="18sp" />
+            <TextView
+                android:id="@+id/company_name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/user_name_text"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="39dp"
+                android:layout_marginLeft="39dp"
+                android:layout_marginTop="35dp"
+                android:text="@string/settings_company_name_text"
+                android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/company_email_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/company_name_text"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="77dp"
-        android:layout_marginLeft="77dp"
-        android:layout_marginTop="34dp"
-        android:text="E-mail"
-        android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/company_email_text_field"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/company_name_text_field"
-        android:layout_marginStart="76dp"
-        android:layout_marginLeft="76dp"
-        android:layout_marginTop="13dp"
-        android:layout_toEndOf="@+id/company_email_text"
-        android:layout_toRightOf="@+id/company_email_text"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:textSize="18sp"
-        tools:text="(No email)" />
+            <EditText
+                android:id="@+id/company_name_text_field"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/user_name_text_field"
+                android:layout_marginStart="38dp"
+                android:layout_marginLeft="38dp"
+                android:layout_marginTop="12dp"
+                android:layout_toEndOf="@+id/company_name_text"
+                android:layout_toRightOf="@+id/company_name_text"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="@string/business_card_retracted_companyName_filler"
+                android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/company_address_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/company_email_text"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="34dp"
-        android:text="Company Address"
-        android:textSize="18sp" />
+            <TextView
+                android:id="@+id/company_email_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/company_name_text"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="77dp"
+                android:layout_marginLeft="77dp"
+                android:layout_marginTop="34dp"
+                android:text="@string/settings_company_email_text"
+                android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/company_address_text_field"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/company_email_text_field"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="15dp"
-        android:layout_toEndOf="@+id/company_address_text"
-        android:layout_toRightOf="@id/company_address_text"
-        android:ems="10"
-        android:inputType="textPostalAddress"
-        android:text="(No address)" />
+            <EditText
+                android:id="@+id/company_email_text_field"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/company_name_text_field"
+                android:layout_marginStart="76dp"
+                android:layout_marginLeft="76dp"
+                android:layout_marginTop="13dp"
+                android:layout_toEndOf="@+id/company_email_text"
+                android:layout_toRightOf="@+id/company_email_text"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:textSize="18sp"
+                tools:text="@string/business_card_extended_companyEmail_filler" />
 
-    <TextView
-        android:id="@+id/corporate_title_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/company_address_text"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="43dp"
-        android:layout_marginLeft="43dp"
-        android:layout_marginTop="35dp"
-        android:text="Corporate Title"
-        android:textSize="18sp" />
+            <TextView
+                android:id="@+id/company_address_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/company_email_text"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="28dp"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="34dp"
+                android:text="@string/settings_company_address_text"
+                android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/corporate_title_chooser_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/company_address_text_field"
-        android:layout_marginStart="98dp"
-        android:layout_marginLeft="98dp"
-        android:layout_marginTop="14dp"
-        android:layout_toEndOf="@+id/corporate_title_text"
-        android:layout_toRightOf="@+id/corporate_title_text"
-        android:text="choose" />
+            <EditText
+                android:id="@+id/company_address_text_field"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/company_email_text_field"
+                android:layout_marginStart="28dp"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@+id/company_address_text"
+                android:layout_toRightOf="@id/company_address_text"
+                android:ems="10"
+                android:inputType="textPostalAddress"
+                android:text="@string/business_card_extended_companyAddress_filler" />
 
-    <TextView
-        android:id="@+id/company_phone_number_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/corporate_title_text"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="43dp"
-        android:layout_marginLeft="43dp"
-        android:layout_marginTop="35dp"
-        android:text="Phone Number"
-        android:textSize="18sp" />
+            <TextView
+                android:id="@+id/corporate_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/company_address_text"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="43dp"
+                android:layout_marginLeft="43dp"
+                android:layout_marginTop="35dp"
+                android:text="@string/settings_corporate_title_text"
+                android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/company_phone_text_field"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/corporate_title_chooser_button"
-        android:layout_marginStart="35dp"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="15dp"
-        android:layout_toEndOf="@+id/company_phone_number_text"
-        android:layout_toRightOf="@+id/company_phone_number_text"
-        android:ems="10"
-        android:inputType="phone"
-        android:text="@android:string/emptyPhoneNumber" />
+            <Button
+                android:id="@+id/corporate_title_chooser_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/company_address_text_field"
+                android:layout_marginStart="98dp"
+                android:layout_marginLeft="98dp"
+                android:layout_marginTop="14dp"
+                android:layout_toEndOf="@+id/corporate_title_text"
+                android:layout_toRightOf="@+id/corporate_title_text"
+                android:text="@string/settings_corporate_title_button_text" />
 
-    <Button
-        android:id="@+id/settings_apply_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/company_phone_text_field"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="161dp"
-        android:layout_marginLeft="161dp"
-        android:layout_marginTop="26dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginRight="162dp"
-        android:text="apply" />
+            <TextView
+                android:id="@+id/company_phone_number_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/corporate_title_text"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="43dp"
+                android:layout_marginLeft="43dp"
+                android:layout_marginTop="35dp"
+                android:text="@string/settings_phone_number_text"
+                android:textSize="18sp" />
 
+            <EditText
+                android:id="@+id/company_phone_text_field"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/corporate_title_chooser_button"
+                android:layout_marginStart="35dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@+id/company_phone_number_text"
+                android:layout_toRightOf="@+id/company_phone_number_text"
+                android:ems="10"
+                android:inputType="phone"
+                android:text="@string/business_card_extended_Number_filler" />
+
+            <Button
+                android:id="@+id/settings_apply_button"
+                android:layout_width="133dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/company_phone_text_field"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginStart="139dp"
+                android:layout_marginLeft="139dp"
+                android:layout_marginTop="26dp"
+                android:layout_marginEnd="139dp"
+                android:layout_marginRight="139dp"
+                android:text="@string/settings_apply_button_text" />
+
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>
