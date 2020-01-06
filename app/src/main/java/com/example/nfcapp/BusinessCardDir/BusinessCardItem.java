@@ -1,5 +1,7 @@
 package com.example.nfcapp.BusinessCardDir;
 
+import android.location.Address;
+
 public class BusinessCardItem {
 
     private int bitmapImage;
@@ -8,6 +10,7 @@ public class BusinessCardItem {
     private CorporateTitle position;
     private String companyName;
 
+    private String Address;
     private String phoneNumber;
     private String email;
 
@@ -58,6 +61,13 @@ public class BusinessCardItem {
     }
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+    public void setAddress(String address) {
+        Address = address;
     }
 
     boolean hasPicture() {

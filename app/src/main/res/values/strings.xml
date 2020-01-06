@@ -13,5 +13,7 @@
 
     <string name="business_card_retracted_name_filler">Name</string>
     <string name="business_card_retracted_companyName_filler">CompanyName</string>
+    <string name="settings_add_picture_button">add Picture</string>
+    <string name="overhead_settings_text">Settings</string>
 
 </resources>
