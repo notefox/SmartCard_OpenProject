@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nfcapp.BusinessCardDir.BusinessCardItem;
+import com.example.nfcapp.MainActivity;
 import com.example.nfcapp.R;
 
 import java.util.AbstractList;
@@ -57,7 +58,7 @@ public class BCAdapterRetracted extends RecyclerView.Adapter<BCAdapterRetracted.
         BusinessCardItem currentItem = itemList.get(position);
         holder.itemView.setTag(itemList.get(position));
 
-        holder.imageView.setImageBitmap(currentItem.getBitmapImage());
+        //holder.imageView.setImageBitmap(currentItem.getBitmapImage());
         holder.TextView1.setText(currentItem.getName());
         holder.TextView2.setText(currentItem.getCompanyName());
     }

@@ -57,9 +57,7 @@ public class BusinessCardItem {
         this.companyName = companyName;
     }
 
-    public String getPosition() {
-        return position.getShorts();
-    }
+    public String getPosition() { return position.getShorts(); }
     public void setPosition(CorporateTitle position) {
         this.position = position;
     }

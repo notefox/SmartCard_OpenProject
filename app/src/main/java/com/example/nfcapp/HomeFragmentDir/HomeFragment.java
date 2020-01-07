@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,22 +11,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.nfcapp.BusinessCardDir.BusinessCardItem;
-import com.example.nfcapp.BusinessCardDir.CorporateTitle;
 import com.example.nfcapp.Database;
 import com.example.nfcapp.R;
-
-import java.util.Arrays;
-import java.util.Vector;
 
 public class HomeFragment extends Fragment {
 
     private RecyclerView homeRecyclerView;
     private RecyclerView.Adapter<BCAdapterRetracted.BCViewHolder> homeAdapter;
     private RecyclerView.LayoutManager homeLayoutManager;
-
-    private Button buttonInsert;
-    private Button buttonRemove;
 
     private View view;
 
@@ -45,15 +36,6 @@ public class HomeFragment extends Fragment {
 
         buildRecyclerView();
 
-        buttonInsert = view.findViewById(R.id.testAddButton);
-        buttonRemove = view.findViewById(R.id.testRemoveButton);
-
-        buttonInsert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
     }
 

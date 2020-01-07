@@ -1,6 +1,7 @@
 package com.example.nfcapp;
 
 import android.app.Application;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -27,15 +28,13 @@ public class ApplicationClass extends Application {
     public void onCreate() {
         super.onCreate();
 
-        fetchTestItemList();
+        fetchItemList();
         fetchLocalID();
 
     }
 
-    void fetchTestItemList() {
-        //Database.addItem(new BusinessCardItem(, "person 1", "company 1", CorporateTitle.Chief_executive_officer));
-        //Database.addItem(new BusinessCardItem(, "person 2", "company 2", CorporateTitle.Chief_financial_officer));
-        //Database.addItem(new BusinessCardItem(, "person 3", "company 3", CorporateTitle.Chief_operating_officer));
+    void fetchItemList() {
+
     }
 
     void fetchLocalID() {
@@ -68,6 +67,4 @@ public class ApplicationClass extends Application {
             fis.close();
         }
     }
-
-
 }

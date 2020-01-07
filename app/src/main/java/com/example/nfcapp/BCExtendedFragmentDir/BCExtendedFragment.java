@@ -15,7 +15,6 @@ import com.example.nfcapp.R;
 public class BCExtendedFragment extends Fragment {
 
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

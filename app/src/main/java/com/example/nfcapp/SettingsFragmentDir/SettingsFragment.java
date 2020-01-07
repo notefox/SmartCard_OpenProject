@@ -1,6 +1,7 @@
 package com.example.nfcapp.SettingsFragmentDir;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -8,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,14 +24,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.nfcapp.ApplicationClass;
 import com.example.nfcapp.BusinessCardDir.BusinessCardItem;
 import com.example.nfcapp.BusinessCardDir.CorporateTitle;
-import com.example.nfcapp.DataFetchFunctions;
 import com.example.nfcapp.Database;
 import com.example.nfcapp.R;
 import com.google.gson.Gson;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
@@ -80,15 +84,14 @@ public class SettingsFragment extends Fragment {
         cooperateTitleDisplay = getActivity().findViewById(R.id.user_ct_display);
 
         try {
-            imageView.setImageBitmap(Database.getLocalID().getBitmapImage());
-            editName.setText(Database.getLocalID().getName());
-            editCompanyName.setText(Database.getLocalID().getCompanyName());
-            editEmail.setText(Database.getLocalID().getEmail());
-            editNumber.setText(Database.getLocalID().getPhoneNumber());
-            editAddress.setText(Database.getLocalID().getAddress());
-            cooperateTitleDisplay.setText(Database.getLocalID().getPosition());
+            addDatabaseID();
         } catch (Exception e) {
-            Log.e(TAG, "onActivityCreated: Exception thrown", e);
+            try {
+                fetchLocalID();
+                addDatabaseID();
+            } catch (Exception e1) {
+                Log.e(TAG, "onActivityCreated: Exception thrown", e);
+            }
         }
 
         cooperateTitleDisplay.setOnClickListener(new chooseCTOnClickListener());
@@ -100,6 +103,49 @@ public class SettingsFragment extends Fragment {
         apply_settings.setOnClickListener(new ApplySettingsOnClickListener());
 
 
+    }
+
+    private FileInputStream fis = null;
+
+    private void fetchLocalID() {
+        try {
+            fis = getActivity().openFileInput(Database.getLocalBcFileName());
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+
+            StringBuilder sb = new StringBuilder();
+
+            String temp;
+            while ((temp = br.readLine()) != null)
+                sb.append(temp);
+
+            Toast.makeText(getActivity(), sb.toString(), Toast.LENGTH_LONG).show();
+
+            Database.setLocalID(new Gson().fromJson(sb.toString(), BusinessCardItem.class));
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void addDatabaseID() {
+        //imageView.setImageBitmap(Database.getLocalID().getBitmapImage());
+        editName.setText(Database.getLocalID().getName());
+        editCompanyName.setText(Database.getLocalID().getCompanyName());
+        editEmail.setText(Database.getLocalID().getEmail());
+        editNumber.setText(Database.getLocalID().getPhoneNumber());
+        editAddress.setText(Database.getLocalID().getAddress());
+        cooperateTitleDisplay.setText(Database.getLocalID().getPosition());
     }
 
     private class selectPictureOnClickListener implements View.OnClickListener {
@@ -150,12 +196,31 @@ public class SettingsFragment extends Fragment {
 
     private class ApplySettingsOnClickListener implements View.OnClickListener {
 
+        FileOutputStream fos = null;
+
         @Override
         public void onClick(View view) {
             if (userBitmap == null)
                 Toast.makeText(getActivity(),"no Picture Selected!", Toast.LENGTH_LONG).show();
             else {
-
+                Database.setLocalID(new BusinessCardItem(userBitmap, editName.getText().toString(), corporateTitle, editCompanyName.getText().toString(), editAddress.getText().toString(), editNumber.getText().toString(), editEmail.getText().toString()));
+                try {
+                    fos = getActivity().openFileOutput(Database.getLocalBcFileName(), Context.MODE_PRIVATE);
+                    fos.write(new Gson().toJson(Database.getLocalID()).getBytes());
+                    Toast.makeText(getActivity(),"Saved to " + getActivity().getFilesDir() + "/" + " local.bfc", Toast.LENGTH_LONG).show();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (fos != null) {
+                        try {
+                            fos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
         }
     }

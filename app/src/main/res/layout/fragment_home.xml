@@ -23,29 +23,4 @@
         android:layout_marginBottom="100sp"
         />
 
-    <Button
-        android:id="@+id/testAddButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="64dp"
-        android:layout_marginLeft="64dp"
-        android:layout_marginBottom="30dp"
-        android:text="add" />
-
-    <Button
-        android:id="@+id/testRemoveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="64dp"
-        android:layout_marginRight="64dp"
-        android:layout_marginBottom="30dp"
-        android:text="remove"
-        />
-
 </RelativeLayout>
