@@ -149,6 +149,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onNewIntent(Intent intent) {
         messagesReceivedArray = nfc.handleNfcIntent(intent);
+        if (messagesReceivedArray != null)
+            Toast.makeText(this, "Received " + messagesReceivedArray.size() + " Messages", Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(this, "Received Blank Parcel", Toast.LENGTH_LONG).show();
         updateTextViews();
     }
 
