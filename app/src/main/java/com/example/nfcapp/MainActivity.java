@@ -1,152 +1,163 @@
 package com.example.nfcapp;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 import com.example.nfcapp.BusinessCardDir.BusinessCardItem;
-import com.example.nfcapp.FavouritesFragmentDir.FavouritesFragment;
-import com.example.nfcapp.HomeFragmentDir.HomeFragment;
+import com.example.nfcapp.BusinessCardDir.CorporateTitle;
 import com.example.nfcapp.NFC.NFCHandler;
-import com.example.nfcapp.SettingsFragmentDir.SettingsFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    NfcAdapter mNfcAdapter;
-    NFCHandler nfc;
+    private BusinessCardItem card;
+
+    //The array lists to hold our messages
+    private ArrayList<String> messagesToSendArray = new ArrayList<>();
+    private ArrayList<String> messagesReceivedArray = new ArrayList<>();
+
+    //Text boxes to add and display our messages
+    private EditText txtBoxAddMessage1;
+    private EditText txtBoxAddMessage2;
+    private EditText txtBoxAddMessage3;
+    private EditText txtBoxAddMessage4;
+    private TextView txtReceivedMessages;
+    private TextView txtMessagesToSend;
+    private Button btnAddMessage;
+
+    private NfcAdapter mNfcAdapter;
+    private NFCHandler nfc;
+
+    //Buttom addMessage
+    public void addMessage(View view) {
+        String s1 = txtBoxAddMessage1.getText().toString();
+        String s2 = txtBoxAddMessage2.getText().toString();
+        String s3 = txtBoxAddMessage3.getText().toString();
+        String s4 = txtBoxAddMessage4.getText().toString();
+        card = new BusinessCardItem(null, s1, CorporateTitle.Chief_brand_officer, s2, s3, s4, "");
+        Gson g = new Gson();
+        String newMessage = g.toJson(card);
+        messagesToSendArray.add(newMessage);
+        nfc.addMessageToSend(newMessage);
+
+        txtBoxAddMessage1.setText(null);
+        txtBoxAddMessage2.setText(null);
+        txtBoxAddMessage3.setText(null);
+        txtBoxAddMessage4.setText(null);
+        updateTextViews();
+
+        Toast.makeText(this, "Added Message", Toast.LENGTH_LONG).show();
+    }
+
+    private void updateTextViews() {
+        txtMessagesToSend.setText("Messages To Send:\n");
+        //Populate Our list of messages we want to send
+        if(messagesToSendArray.size() > 0) {
+            for (int i = 0; i < messagesToSendArray.size(); i++) {
+                txtMessagesToSend.append(getJson(messagesToSendArray.get(i)));
+                txtMessagesToSend.append("\n");
+            }
+        }
+
+        txtReceivedMessages.setText("Messages Received:\n");
+        //Populate our list of messages we have received
+        if (messagesReceivedArray.size() > 0) {
+            for (int i = 0; i < messagesReceivedArray.size(); i++) {
+                txtReceivedMessages.append(getJson(messagesReceivedArray.get(i)));
+                txtReceivedMessages.append("\n");
+            }
+        }
+    }
+
+    private String getJson(String s) {
+        Gson g = new Gson();
+        BusinessCardItem temp = g.fromJson(s, BusinessCardItem.class);
+        return "Name: " + temp.getName() + "\n"+ "Company: " + temp.getCompanyName() + "\n" + "Adress: " + temp.getAddress() + "\n" + "Phone: " + temp.getPhoneNumber() + "\n" + "Email: " + temp.getEmail() + "\n";
+    }
+
+    //Save our Array Lists of Messages for if the user navigates away
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putStringArrayList("messagesToSend", messagesToSendArray);
+        savedInstanceState.putStringArrayList("lastMessagesReceived",messagesReceivedArray);
+    }
+
+    //Load our Array Lists of Messages for when the user navigates back
+    @Override
+    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        messagesToSendArray = savedInstanceState.getStringArrayList("messagesToSend");
+        messagesReceivedArray = savedInstanceState.getStringArrayList("lastMessagesReceived");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav_view);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
+        txtBoxAddMessage1 = findViewById(R.id.txtBoxAddMessage1);
+        txtBoxAddMessage2 = findViewById(R.id.txtBoxAddMessage2);
+        txtBoxAddMessage3 = findViewById(R.id.txtBoxAddMessage3);
+        txtBoxAddMessage4 = findViewById(R.id.txtBoxAddMessage4);
+        txtMessagesToSend = findViewById(R.id.txtMessageToSend);
+        txtReceivedMessages = findViewById(R.id.txtMessagesReceived);
+        btnAddMessage = findViewById(R.id.buttonAddMessage);
+
+        btnAddMessage.setClickable(false);
+
+        btnAddMessage.setText("Add Message");
+
+        final ButtonControl control = new ButtonControl(findViewById(R.id.txtBoxAddMessage1)
+                                                        , findViewById(R.id.txtBoxAddMessage2)
+                                                        , findViewById(R.id.txtBoxAddMessage3)
+                                                        , findViewById(R.id.txtBoxAddMessage4)
+                                                        , findViewById(R.id.buttonAddMessage));
+
+        txtBoxAddMessage1.addTextChangedListener(control);
+        txtBoxAddMessage2.addTextChangedListener(control);
+        txtBoxAddMessage3.addTextChangedListener(control);
+        txtBoxAddMessage4.addTextChangedListener(control);
+        updateTextViews();
 
 
-        if (!(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) || !(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)) {
-            requestStoragePermissions();
-        }
+        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        nfc = new NFCHandler(this, mNfcAdapter);
 
-        if (!(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.NFC) == PackageManager.PERMISSION_GRANTED) || !((ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.NFC_TRANSACTION_EVENT) == PackageManager.PERMISSION_GRANTED))) {
-            requestNFCPermission();
-        }
-
-        /*
         //Check if NFC is available on device
         if (!nfc.checkNFC()) {
             Toast.makeText(this, "NFC not available on this device",
                     Toast.LENGTH_SHORT).show();
         }
-        */
-        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        nfc = new NFCHandler(this, mNfcAdapter);
     }
-
-    private void requestNFCPermission() {
-        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.NFC, Manifest.permission.NFC_TRANSACTION_EVENT},2);
-    }
-
-    private void requestStoragePermissions() {
-        if (!(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE))) {
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        }
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 1){
-            if((grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) && (grantResults.length > 0 && grantResults[1] == PackageManager.PERMISSION_GRANTED));
-                Toast.makeText(MainActivity.this, "thx", Toast.LENGTH_SHORT).show();
-        } else if(requestCode == 2) {
-            if((grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) && (grantResults.length > 0 && grantResults[1] == PackageManager.PERMISSION_GRANTED));
-                Toast.makeText(MainActivity.this, "thx", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment selectedFragment = null;
-
-            switch (item.getItemId()){
-                case R.id.nav_home:
-                    selectedFragment = new HomeFragment();
-                    break;
-
-                case R.id.nav_fav:
-                    selectedFragment = new FavouritesFragment();
-                    break;
-
-                case R.id.nav_settings:
-                    selectedFragment = new SettingsFragment();
-                    break;
-            }
-
-            if (selectedFragment == null) {
-                return false;
-            }
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
-
-            return true;
-        }
-    };
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.head_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.  head_item_send:
-                    nfc.addMessageToSend(new Gson().toJson(Database.getLocalID()));
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-/*
-    private void updateRecyclerViews() {
-        Database.add(Database.read());
-    }
-    */
 
     @Override
     public void onNewIntent(Intent intent) {
-        /*Database.setIntentIncomingList(nfc.handleNfcIntent(intent));
-        convertNewIntentToUsableItem();
-        updateRecyclerViews();
-         */
-
-        Toast.makeText(this, nfc.handleNfcIntent(intent).get(0), Toast.LENGTH_SHORT).show();
-    }
-/*
-    void convertNewIntentToUsableItem() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < Database.getIntentIncomingList().size(); i++) {
-            sb.append(Database.getIntentIncomingList().get(i));
-        }
-        Database.add(new Gson().fromJson(sb.toString(), BusinessCardItem.class));
+        messagesReceivedArray = nfc.handleNfcIntent(intent);
+        if (messagesReceivedArray != null)
+            Toast.makeText(this, "Received " + messagesReceivedArray.size() + " Messages", Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(this, "Received Blank Parcel", Toast.LENGTH_LONG).show();
+        updateTextViews();
     }
 
- */
+    @Override
+    public void onResume() {
+        super.onResume();
+        messagesReceivedArray = nfc.handleNfcIntent(getIntent());
+
+        updateTextViews();
+    }
 }

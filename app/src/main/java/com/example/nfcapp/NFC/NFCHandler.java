@@ -115,12 +115,11 @@ public class NFCHandler extends Fragment implements NfcAdapter.OnNdefPushComplet
                     if (string.equals(activity.getPackageName())) { continue; }
                     messagesReceivedArray.add(string);
                 }
-                Toast.makeText(activity, "Received " + messagesReceivedArray.size() +
-                        " Messages", Toast.LENGTH_LONG).show();
+                //Toast.makeText(activity, "Received " + messagesReceivedArray.size() + " Messages", Toast.LENGTH_LONG).show();
             }
-            else {
-                Toast.makeText(activity, "Received Blank Parcel", Toast.LENGTH_LONG).show();
-            }
+            //else {
+            //    Toast.makeText(activity, "Received Blank Parcel", Toast.LENGTH_LONG).show();
+            //}
         }
         return this.messagesReceivedArray;
     }
