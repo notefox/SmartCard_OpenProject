@@ -13,7 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.nfcapp.BCardObject.BCardObject;
+import com.example.nfcapp.BusinessCardDir.BusinessCardItem;
+import com.example.nfcapp.BusinessCardDir.CorporateTitle;
 import com.example.nfcapp.NFC.NFCHandler;
 import com.google.gson.Gson;
 
@@ -21,8 +22,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private BCardObject card;
-    private int id = 0;
+    private BusinessCardItem card;
 
     //The array lists to hold our messages
     private ArrayList<String> messagesToSendArray = new ArrayList<>();
@@ -46,10 +46,7 @@ public class MainActivity extends AppCompatActivity {
         String s2 = txtBoxAddMessage2.getText().toString();
         String s3 = txtBoxAddMessage3.getText().toString();
         String s4 = txtBoxAddMessage4.getText().toString();
-        id++;
-        card = new BCardObject(id, s1, s2);
-        card.addNumber(s3);
-        card.addMail(s4);
+        card = new BusinessCardItem(null, s1, CorporateTitle.Chief_brand_officer, s2, s3, s4, "");
         Gson g = new Gson();
         String newMessage = g.toJson(card);
         messagesToSendArray.add(newMessage);
@@ -86,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String getJson(String s) {
         Gson g = new Gson();
-        BCardObject temp = g.fromJson(s, BCardObject.class);
-        return "ID: " + temp.getId() + "\n" + "Name: " + temp.getName() + "\n"+ "Phone: " + temp.getNumber1() + "\n"+ "Email: " + temp.getEmail1() + "\n";
+        BusinessCardItem temp = g.fromJson(s, BusinessCardItem.class);
+        return "Name: " + temp.getName() + "\n"+ "Company: " + temp.getCompanyName() + "\n" + "Adress: " + temp.getAddress() + "\n" + "Phone: " + temp.getPhoneNumber() + "\n" + "Email: " + temp.getEmail() + "\n";
     }
 
     //Save our Array Lists of Messages for if the user navigates away
