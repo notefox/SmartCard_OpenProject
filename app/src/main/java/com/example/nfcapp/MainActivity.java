@@ -13,7 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.nfcapp.BCardObject.UserObject;
+import com.example.nfcapp.BCardObject.BCardObject;
 import com.example.nfcapp.NFC.NFCHandler;
 import com.google.gson.Gson;
 
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private UserObject card;
+    private BCardObject card;
     private int id = 0;
 
     //The array lists to hold our messages
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         String s3 = txtBoxAddMessage3.getText().toString();
         String s4 = txtBoxAddMessage4.getText().toString();
         id++;
-        card = new UserObject(id, s1, s2);
+        card = new BCardObject(id, s1, s2);
         card.addNumber(s3);
         card.addMail(s4);
         Gson g = new Gson();
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String getJson(String s) {
         Gson g = new Gson();
-        UserObject temp = g.fromJson(s, UserObject.class);
+        BCardObject temp = g.fromJson(s, BCardObject.class);
         return "ID: " + temp.getId() + "\n" + "Name: " + temp.getName() + "\n"+ "Phone: " + temp.getNumber1() + "\n"+ "Email: " + temp.getEmail1() + "\n";
     }
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class BCardObject {
+public class BCardObject {
 
     private int id; //
 
@@ -25,7 +25,7 @@ public abstract class BCardObject {
         this.position = new Integer(new Random().nextInt()).toString();
     }
 
-    BCardObject (int id, String name, String position) {
+    public BCardObject(int id, String name, String position) {
         this.id = id;
         this.name = name;
         this.position = position;

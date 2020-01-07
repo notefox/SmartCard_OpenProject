@@ -56,7 +56,6 @@ public class NFCHandler extends Fragment implements NfcAdapter.OnNdefPushComplet
      */
     public void addMessageToSend(String newMessage) {
         messagesToSendArray.add(newMessage);
-        System.out.println(messagesToSendArray.size());
     }
 
     /**
