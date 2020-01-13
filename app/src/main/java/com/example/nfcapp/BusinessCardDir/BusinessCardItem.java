@@ -1,46 +1,57 @@
 package com.example.nfcapp.BusinessCardDir;
 
 import android.graphics.Bitmap;
-import android.location.Address;
 
 import com.example.nfcapp.Database;
+import com.example.nfcapp.GeneralMethodsClass;
 
 public class BusinessCardItem {
 
-    private Bitmap bitmapImage;
+    private int id;
+
+    private String bitmapImage;
 
     private String name;
     private CorporateTitle position;
     private String companyName;
 
-    private String Address;
+    private String address;
     private String phoneNumber;
     private String email;
 
     private boolean favourite = false;
 
-    public BusinessCardItem(Bitmap bitmapImage, String name, String companyName, CorporateTitle position) {
-        this.bitmapImage = bitmapImage;
+    public BusinessCardItem(int id, Bitmap bitmapImage, String name, String companyName, CorporateTitle position) {
+        this.id = id;
+        this.bitmapImage = new GeneralMethodsClass().bitmapToString(bitmapImage);
         this.companyName = companyName;
         this.name = name;
         this.position = position;
     }
 
-    public BusinessCardItem(Bitmap bitmapImage, String name, CorporateTitle position, String companyName, String address, String phoneNumber, String email) {
-        this.bitmapImage = bitmapImage;
+    public BusinessCardItem(int id, Bitmap bitmapImage, String name, CorporateTitle position, String companyName, String address, String phoneNumber, String email) {
+        this.id = id;
+        this.bitmapImage = new GeneralMethodsClass().bitmapToString(bitmapImage);
         this.name = name;
         this.position = position;
         this.companyName = companyName;
-        Address = address;
+        this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
 
     public Bitmap getBitmapImage() {
-        return bitmapImage;
+        return new GeneralMethodsClass().stringToBitMap(this.bitmapImage);
     }
     public void setBitmapImage(Bitmap bitmapImage) {
-        this.bitmapImage = bitmapImage;
+        this.bitmapImage = new GeneralMethodsClass().bitmapToString(bitmapImage);;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -77,10 +88,10 @@ public class BusinessCardItem {
     }
 
     public String getAddress() {
-        return Address;
+        return address;
     }
     public void setAddress(String address) {
-        Address = address;
+        this.address = address;
     }
 
     boolean hasPicture() {
@@ -94,10 +105,13 @@ public class BusinessCardItem {
         this.favourite = true;
         Database.addFav(this);
     }
-
     public void removeFromFavourite() {
         this.favourite = false;
-        Database.remFav(this);
+        Database.addFav(this);
+    }
+
+    public boolean isFavourite() {
+        return favourite;
     }
 
     @Override
@@ -124,5 +138,4 @@ public class BusinessCardItem {
 
         return sb.toString();
     }
-
 }

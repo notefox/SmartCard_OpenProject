@@ -1,7 +1,6 @@
 package com.example.nfcapp.SettingsFragmentDir;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -27,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import com.example.nfcapp.BusinessCardDir.BusinessCardItem;
 import com.example.nfcapp.BusinessCardDir.CorporateTitle;
 import com.example.nfcapp.Database;
+import com.example.nfcapp.GeneralMethodsClass;
 import com.example.nfcapp.R;
 import com.google.gson.Gson;
 
@@ -43,24 +43,22 @@ import static android.content.ContentValues.TAG;
 
 public class SettingsFragment extends Fragment {
 
-    ImageView imageView;
-    Button selectPicture;
-    Button apply_settings;
+    private ImageView imageView;
+    private Button selectPicture;
+    private Button apply_settings;
 
-    EditText editName;
-    EditText editCompanyName;
-    EditText editEmail;
-    EditText editAddress;
-    EditText editNumber;
-    TextView cooperateTitleDisplay;
+    private EditText editName;
+    private EditText editCompanyName;
+    private EditText editEmail;
+    private EditText editAddress;
+    private EditText editNumber;
+    private TextView cooperateTitleDisplay;
 
-    Bitmap userBitmap;
-    CorporateTitle corporateTitle;
+    private Bitmap userBitmap;
+    private CorporateTitle corporateTitle;
 
-    String[] listItems;
+    private String[] listItems;
     int checkedItem;
-    String selectedItem;
-
 
     @Nullable
     @Override
@@ -72,7 +70,7 @@ public class SettingsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        imageView = getActivity().findViewById(R.id.localID_picture);
+        imageView = getActivity().findViewById(R.id.BusinessCard_extended_image);
         selectPicture = getActivity().findViewById(R.id.settings_add_picture_button);
         apply_settings = getActivity().findViewById(R.id.settings_apply_button);
 
@@ -119,7 +117,7 @@ public class SettingsFragment extends Fragment {
             while ((temp = br.readLine()) != null)
                 sb.append(temp);
 
-            Toast.makeText(getActivity(), sb.toString(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), sb.toString(), Toast.LENGTH_LONG).show();
 
             Database.setLocalID(new Gson().fromJson(sb.toString(), BusinessCardItem.class));
 
@@ -139,7 +137,7 @@ public class SettingsFragment extends Fragment {
     }
 
     private void addDatabaseID() {
-        //imageView.setImageBitmap(Database.getLocalID().getBitmapImage());
+        imageView.setImageBitmap(Database.getLocalID().getBitmapImage());
         editName.setText(Database.getLocalID().getName());
         editCompanyName.setText(Database.getLocalID().getCompanyName());
         editEmail.setText(Database.getLocalID().getEmail());
@@ -203,10 +201,9 @@ public class SettingsFragment extends Fragment {
             if (userBitmap == null)
                 Toast.makeText(getActivity(),"no Picture Selected!", Toast.LENGTH_LONG).show();
             else {
-                Database.setLocalID(new BusinessCardItem(userBitmap, editName.getText().toString(), corporateTitle, editCompanyName.getText().toString(), editAddress.getText().toString(), editNumber.getText().toString(), editEmail.getText().toString()));
+                Database.setLocalID(new BusinessCardItem(0, userBitmap, editName.getText().toString(), corporateTitle, editCompanyName.getText().toString(), editAddress.getText().toString(), editNumber.getText().toString(), editEmail.getText().toString()));
                 try {
-                    fos = getActivity().openFileOutput(Database.getLocalBcFileName(), Context.MODE_PRIVATE);
-                    fos.write(new Gson().toJson(Database.getLocalID()).getBytes());
+                    new GeneralMethodsClass().save(Database.getLocalID(), Database.getLocalBcFileName(), getActivity());
                     Toast.makeText(getActivity(),"Saved to " + getActivity().getFilesDir() + "/" + " local.bfc", Toast.LENGTH_LONG).show();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();

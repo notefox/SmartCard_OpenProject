@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.nfcapp.BusinessCardDir.BusinessCardItem;
+import com.example.nfcapp.BusinessCardDir.CorporateTitle;
 import com.example.nfcapp.FavouritesFragmentDir.FavouritesFragment;
 import com.example.nfcapp.HomeFragmentDir.HomeFragment;
 import com.example.nfcapp.NFC.NFCHandler;
@@ -24,15 +26,29 @@ import com.example.nfcapp.SettingsFragmentDir.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import static com.example.nfcapp.Database.BC_FILE_SUFFIX;
+import static com.example.nfcapp.Database.FILE_PREFIX_NORMAL_BC;
+import static com.example.nfcapp.Database.addItem;
+
 public class MainActivity extends AppCompatActivity {
 
-    NfcAdapter mNfcAdapter;
-    NFCHandler nfc;
+    private static final String TAG = "Tag";
+
+    private NfcAdapter mNfcAdapter;
+    private NFCHandler nfc;
+
+    private HomeFragment homeFragment;
+    private FavouritesFragment favouritesFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Database.setMainContext(this);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav_view);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -53,8 +69,14 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         }
         */
+
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         nfc = new NFCHandler(this, mNfcAdapter);
+
+        homeFragment = new HomeFragment();
+        favouritesFragment = new FavouritesFragment();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
     }
 
     private void requestNFCPermission() {
@@ -72,10 +94,10 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == 1){
             if((grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) && (grantResults.length > 0 && grantResults[1] == PackageManager.PERMISSION_GRANTED));
-                Toast.makeText(MainActivity.this, "thx", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "thx", Toast.LENGTH_SHORT).show();
         } else if(requestCode == 2) {
             if((grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) && (grantResults.length > 0 && grantResults[1] == PackageManager.PERMISSION_GRANTED));
-                Toast.makeText(MainActivity.this, "thx", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(MainActivity.this, "thx", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -86,11 +108,11 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()){
                 case R.id.nav_home:
-                    selectedFragment = new HomeFragment();
+                    selectedFragment = homeFragment;
                     break;
 
                 case R.id.nav_fav:
-                    selectedFragment = new FavouritesFragment();
+                    selectedFragment = favouritesFragment;
                     break;
 
                 case R.id.nav_settings:
@@ -118,35 +140,34 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.  head_item_send:
-                    nfc.addMessageToSend(new Gson().toJson(Database.getLocalID()));
+            case R.id.head_item_send:
+                nfc.addMessageToSend(new Gson().toJson(Database.getLocalID()));
+                break;
+
+            case R.id.addManualItem:
+                BusinessCardItem temp = new BusinessCardItem(Database.getItemList().size(),null, "Test", "company", CorporateTitle.Null);
+                try {
+                    new GeneralMethodsClass().save(temp, FILE_PREFIX_NORMAL_BC + Database.getItemList().size() + BC_FILE_SUFFIX, this);
+                    addItem(temp);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
-/*
-    private void updateRecyclerViews() {
-        Database.add(Database.read());
-    }
-    */
 
     @Override
     public void onNewIntent(Intent intent) {
-        /*Database.setIntentIncomingList(nfc.handleNfcIntent(intent));
-        convertNewIntentToUsableItem();
-        updateRecyclerViews();
-         */
+        FileOutputStream fos;
+        BusinessCardItem gottenObject = new Gson().fromJson(nfc.handleNfcIntent(intent).get(0), BusinessCardItem.class);
+        try {
 
-        Toast.makeText(this, nfc.handleNfcIntent(intent).get(0), Toast.LENGTH_SHORT).show();
-    }
-/*
-    void convertNewIntentToUsableItem() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < Database.getIntentIncomingList().size(); i++) {
-            sb.append(Database.getIntentIncomingList().get(i));
+            new GeneralMethodsClass().save(gottenObject, (FILE_PREFIX_NORMAL_BC + Database.getItemList().size() + FILE_PREFIX_NORMAL_BC), this);
+            Database.addItem(gottenObject);
+        } catch (IOException e) {
+            Log.e(TAG, "onNewIntent: ", e);
+            Toast.makeText(this, "saved gotten ", Toast.LENGTH_SHORT).show();
         }
-        Database.add(new Gson().fromJson(sb.toString(), BusinessCardItem.class));
     }
-
- */
 }

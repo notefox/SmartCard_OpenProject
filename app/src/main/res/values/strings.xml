@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Smart Card</string>
 
     <string name="nav_home_title">home</string>
 
@@ -11,21 +11,31 @@
     <string name="overhead_fav_bc_text">Favourites</string>
     <string name="settings_title_text">Settings</string>
 
-    <string name="business_card_retracted_name_filler">Name</string>
-    <string name="business_card_retracted_companyName_filler">CompanyName</string>
+    <string name="business_card_retracted_name_filler">(no Name)</string>
+    <string name="business_card_retracted_companyName_filler">(no Company)</string>
+
     <string name="settings_add_picture_button">add Picture</string>
     <string name="overhead_settings_text">Settings</string>
-    <string name="settings_company_name_text">Company Name</string>
+
     <string name="settings_user_name_text">Name</string>
+    <string name="settings_company_name_text">Company Name</string>
     <string name="settings_company_email_text">E-mail</string>
     <string name="settings_company_address_text">Company Address</string>
-    <string name="business_card_extended_companyEmail_filler">(No email)</string>
-    <string name="business_card_extended_companyAddress_filler">(No address)</string>
     <string name="settings_corporate_title_text">Corporate Title</string>
     <string name="settings_corporate_title_button_text">choose</string>
     <string name="settings_phone_number_text">Phone Number</string>
-    <string name="business_card_extended_Number_filler">(No number)</string>
-    <string name="settings_apply_button_text">apply</string>
     <string name="settings_ct_display">Cooperate Title</string>
+
+    <string name="business_card_extended_companyEmail_filler">(No email)</string>
+    <string name="business_card_extended_companyAddress_filler">(No address)</string>
+    <string name="business_card_extended_Number_filler">(No number)</string>
+    <string name="business_card_extended_CT_filler">(no Corporate Title)</string>
+
+    <string name="settings_apply_button_text">apply</string>
+    <string name="BusinessCard_extended_image_description">received_image</string>
+    <string name="bc_item_companyimage">bc_item_companyImage</string>
+    <string name="deletebutton">deleteButton</string>
+    <string name="favbutton">favButton</string>
+
 
 </resources>
