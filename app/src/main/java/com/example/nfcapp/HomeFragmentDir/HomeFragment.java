@@ -11,13 +11,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.nfcapp.BCExtendedFragmentDir.BCExtendedFragment;
+import com.example.nfcapp.BusinessCardDir.BusinessCardItem;
 import com.example.nfcapp.Database;
 import com.example.nfcapp.R;
 
 public class HomeFragment extends Fragment {
 
     private RecyclerView homeRecyclerView;
-    private RecyclerView.Adapter<BCAdapterRetracted.BCViewHolder> homeAdapter;
     private RecyclerView.LayoutManager homeLayoutManager;
 
     private View view;
@@ -44,9 +45,18 @@ public class HomeFragment extends Fragment {
         homeRecyclerView.setHasFixedSize(true);
 
         homeLayoutManager = new LinearLayoutManager(this.getActivity());
-        homeAdapter = new BCAdapterRetracted(this.getActivity(), Database.getItemList());
+        Database.homeAdapter = new BCAdapterRetracted(this.getActivity(), Database.getItemList());
 
         homeRecyclerView.setLayoutManager(homeLayoutManager);
-        homeRecyclerView.setAdapter(homeAdapter);
+        homeRecyclerView.setAdapter(Database.homeAdapter);
+
+        Database.homeAdapter.setOnItemClickListener(new BCAdapterRetracted.OnItemClickListener() {
+            @Override
+            public void OnItemClick(int position) {
+                BusinessCardItem temp = Database.getItemList().get(position);
+
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new BCExtendedFragment(temp)).commit();
+            }
+        });
     }
 }

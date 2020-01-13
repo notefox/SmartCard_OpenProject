@@ -1,35 +1,34 @@
 package com.example.nfcapp;
 
 import android.app.Application;
-import android.provider.ContactsContract;
-import android.util.Log;
+import android.content.Context;
 import android.widget.Toast;
 
 import com.example.nfcapp.BusinessCardDir.BusinessCardItem;
-import com.example.nfcapp.FavouritesFragmentDir.FavouritesFragment;
-import com.example.nfcapp.HomeFragmentDir.HomeFragment;
-import com.example.nfcapp.SettingsFragmentDir.SettingsFragment;
-import com.google.gson.Gson;
+import com.example.nfcapp.HomeFragmentDir.BCAdapterRetracted;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.AbstractList;
-import java.util.ArrayList;
 import java.util.Vector;
 
-import static android.content.ContentValues.TAG;
-
 public class Database extends Application {
-    private static final String BC_FILE_SUFFIX = ".bcf";
+    public static final String BC_FILE_SUFFIX = ".bcf";
     private static String LOCAL_BC_FILE_NAME = "local" + BC_FILE_SUFFIX;
+    public static String FILE_PREFIX_NORMAL_BC = "receivedItem_";
+
+    private static Context mainContext;
+
+    public static void setMainContext(Context mainContext) {
+        Database.mainContext = mainContext;
+    }
 
     private static AbstractList<BusinessCardItem> itemList = new Vector<>();
     private static AbstractList<BusinessCardItem> itemList_fav = new Vector<>();
 
     private static BusinessCardItem localID;
+
+    public static BCAdapterRetracted homeAdapter;
+    public static BCAdapterRetracted favAdapted;
 
     public static BusinessCardItem getLocalID() {
         return localID;
@@ -41,9 +40,29 @@ public class Database extends Application {
 
     public static void addItem(BusinessCardItem item) {
         Database.itemList.add(item);
+        if (homeAdapter != null)
+            Database.homeAdapter.notifyItemInserted(homeAdapter.getItemCount());
     }
+
+    public static void removeItem(int pos) {
+        new GeneralMethodsClass().deleteFile(Database.FILE_PREFIX_NORMAL_BC + pos + Database.BC_FILE_SUFFIX);
+    }
+
     public static void addFav(BusinessCardItem item) {
         Database.itemList_fav.add(item);
+        if (favAdapted != null)
+            Database.favAdapted.notifyItemInserted(favAdapted.getItemCount());
+    }
+
+    public void saveItem(BusinessCardItem item) {
+        try {
+            new GeneralMethodsClass().save(item, (FILE_PREFIX_NORMAL_BC + itemList.size() + FILE_PREFIX_NORMAL_BC), mainContext);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static AbstractList<BusinessCardItem> getFavList() {
+        return Database.itemList_fav;
     }
 
     public static AbstractList<BusinessCardItem> getItemList() {
@@ -59,33 +78,20 @@ public class Database extends Application {
     }
 
     public static void remFav(BusinessCardItem item) {
-        if (Database.itemList_fav.remove(item))
-            Log.e(TAG, "remFav: could not remove favourite " + item.getName());
-    }
-
-    private static AbstractList<String> intentIncomingList = new ArrayList<>();
-
-    public static AbstractList<String> getIntentIncomingList() {
-        return intentIncomingList;
-    }
-
-    public static void setIntentIncomingList(AbstractList<String> intentIncomingList) {
-        Database.intentIncomingList = intentIncomingList;
-    }
-
-    private static AbstractList<BusinessCardItem> newItemVector = new Vector<>();
-
-    public static BusinessCardItem read() {
-        if (newItemVector.size() == 0) {
-            return null;
-        } else {
-            BusinessCardItem temp = newItemVector.get(0);
-            newItemVector.remove(0);
-            return temp;
+        try {
+            Database.itemList_fav.remove(findFavByNameAndCompany(item));
+        } catch (NullPointerException e) {
+            Toast.makeText(mainContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+        if (favAdapted != null)
+            favAdapted.notifyDataSetChanged();
     }
 
-    public static void add(BusinessCardItem item) {
-        newItemVector.add(item);
+    private static int findFavByNameAndCompany(BusinessCardItem item) throws NullPointerException {
+        for (int i = 0; i < itemList_fav.size(); i++) {
+            if (Database.itemList_fav.get(i).getName().equals(item.getName()) && Database.itemList_fav.get(i).getCompanyName().equals(item.getCompanyName()));
+            return i;
+        }
+        throw new NullPointerException("user not found");
     }
 }

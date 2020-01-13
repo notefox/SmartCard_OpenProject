@@ -41,6 +41,7 @@ public class NFCHandlerTest {
         Parcelable[] messages = {mockMessage};
         NdefRecord mockRecord = mock(NdefRecord.class);
         NdefRecord[] records = {mockRecord};
+
         Mockito.when(mockIntent.getAction()).thenReturn(NfcAdapter.ACTION_NDEF_DISCOVERED);
         Mockito.when(mockIntent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)).thenReturn(messages);
         Mockito.when(mockMessage.getRecords()).thenReturn(records);

@@ -8,7 +8,6 @@ import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
 import android.os.Build;
 import android.os.Parcelable;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 

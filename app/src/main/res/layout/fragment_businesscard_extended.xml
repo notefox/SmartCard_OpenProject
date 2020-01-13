@@ -6,110 +6,125 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="horizontal">
 
         <RelativeLayout
+            android:id="@+id/BusinessCard_extended_relative_Layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView7"
-                android:layout_width="208dp"
+                android:id="@+id/BusinessCard_extended_CorporateTitle"
+                android:layout_width="170dp"
                 android:layout_height="45dp"
-                android:layout_below="@+id/textView6"
-                android:layout_marginStart="27dp"
-                android:layout_marginLeft="27dp"
+                android:layout_below="@+id/BusinessCard_extended_CompanyAdress"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_marginTop="15dp"
-                android:layout_toEndOf="@+id/corporate_title_text"
-                android:layout_toRightOf="@+id/corporate_title_text"
+                android:layout_marginEnd="1dp"
+                android:layout_marginRight="0dp"
                 android:gravity="center"
-                android:text="TextView"
-                android:textSize="24sp" />
+                android:text="@string/business_card_extended_CT_filler"
+                android:textSize="18sp"
+                app:autoSizeTextType="none" />
 
             <TextView
-                android:id="@+id/textView8"
-                android:layout_width="208dp"
+                android:id="@+id/BusinessCard_extended_PhoneNumber"
+                android:layout_width="170dp"
                 android:layout_height="45dp"
-                android:layout_below="@+id/textView7"
-                android:layout_marginStart="27dp"
-                android:layout_marginLeft="27dp"
+                android:layout_below="@+id/BusinessCard_extended_CorporateTitle"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_marginTop="15dp"
-                android:layout_toEndOf="@+id/company_phone_number_text"
-                android:layout_toRightOf="@+id/company_phone_number_text"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
                 android:gravity="center"
-                android:text="TextView"
-                android:textSize="24sp" />
+                android:text="@string/business_card_extended_Number_filler"
+                android:textSize="18sp"
+                app:autoSizeTextType="none" />
 
             <TextView
-                android:id="@+id/textView6"
-                android:layout_width="208dp"
+                android:id="@+id/BusinessCard_extended_CompanyAdress"
+                android:layout_width="170dp"
                 android:layout_height="45dp"
-                android:layout_below="@+id/textView5"
-                android:layout_marginStart="14dp"
-                android:layout_marginLeft="14dp"
+                android:layout_below="@+id/BusinessCard_extended_Email"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_marginTop="15dp"
-                android:layout_toEndOf="@+id/company_address_text"
-                android:layout_toRightOf="@+id/company_address_text"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
                 android:gravity="center"
-                android:text="TextView"
-                android:textSize="24sp" />
+                android:text="@string/business_card_extended_companyAddress_filler"
+                android:textSize="18sp"
+                app:autoSizeTextType="none" />
 
             <TextView
-                android:id="@+id/textView5"
-                android:layout_width="208dp"
+                android:id="@+id/BusinessCard_extended_Email"
+                android:layout_width="170dp"
                 android:layout_height="45dp"
-                android:layout_below="@+id/textView4"
-                android:layout_marginStart="63dp"
-                android:layout_marginLeft="63dp"
+                android:layout_below="@+id/BusinessCard_extended_CompanyName"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_marginTop="15dp"
-                android:layout_toEndOf="@+id/company_email_text"
-                android:layout_toRightOf="@+id/company_email_text"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
                 android:gravity="center"
-                android:text="TextView"
-                android:textSize="24sp" />
+                android:text="@string/business_card_extended_companyEmail_filler"
+                android:textSize="18sp"
+                app:autoSizeTextType="none" />
 
             <TextView
-                android:id="@+id/textView4"
-                android:layout_width="208dp"
-                android:layout_height="45dp"
-                android:layout_below="@+id/textView3"
-                android:layout_marginStart="22dp"
-                android:layout_marginLeft="22dp"
+                android:id="@+id/BusinessCard_extended_CompanyName"
+                android:layout_width="170dp"
+                android:layout_height="43dp"
+                android:layout_below="@+id/BusinessCard_extended_UserName"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_marginTop="15dp"
-                android:layout_toEndOf="@+id/company_name_text"
-                android:layout_toRightOf="@+id/company_name_text"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
                 android:gravity="center"
-                android:text="TextView"
-                android:textSize="24sp" />
+                android:text="@string/business_card_retracted_companyName_filler"
+                android:textSize="18sp"
+                app:autoSizeTextType="none" />
 
             <TextView
-                android:id="@+id/textView3"
-                android:layout_width="208dp"
+                android:id="@+id/BusinessCard_extended_UserName"
+                android:layout_width="170dp"
                 android:layout_height="45dp"
-                android:layout_below="@+id/localID_picture"
-                android:layout_marginStart="65dp"
-                android:layout_marginLeft="65dp"
+                android:layout_below="@+id/BusinessCard_extended_image"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_marginTop="15dp"
-                android:layout_toEndOf="@+id/user_name_text"
-                android:layout_toRightOf="@+id/user_name_text"
-                android:text="TextView"
-                android:textSize="24sp"
-                android:gravity="center" />
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:gravity="center"
+                android:text="@string/business_card_retracted_name_filler"
+                android:textSize="18sp"
+                app:autoSizeTextType="none" />
 
             <TextView
                 android:id="@+id/BC_Extended_Header"
-                android:layout_width="match_parent"
+                android:layout_width="284dp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="37dp"
+                android:layout_marginLeft="37dp"
+                android:layout_marginTop="0dp"
                 android:gravity="center"
                 android:text="@string/business_card_retracted_name_filler"
                 android:textSize="30sp" />
 
             <ImageView
-                android:id="@+id/localID_picture"
+                android:id="@+id/BusinessCard_extended_image"
                 android:layout_width="match_parent"
                 android:layout_height="174dp"
                 android:layout_below="@id/BC_Extended_Header"
+                android:contentDescription="@string/BusinessCard_extended_image_description"
                 tools:srcCompat="@tools:sample/backgrounds/scenic[16]" />
 
 
@@ -117,12 +132,16 @@
                 android:id="@+id/user_name_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/localID_picture"
+                android:layout_below="@+id/BusinessCard_extended_image"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_marginStart="76dp"
                 android:layout_marginLeft="76dp"
                 android:layout_marginTop="26dp"
+                android:layout_marginEnd="66dp"
+                android:layout_marginRight="66dp"
+                android:layout_toStartOf="@+id/BusinessCard_extended_UserName"
+                android:layout_toLeftOf="@+id/BusinessCard_extended_UserName"
                 android:text="@string/settings_user_name_text"
                 android:textSize="18sp" />
 
@@ -191,6 +210,19 @@
                 android:layout_marginTop="35dp"
                 android:text="@string/settings_phone_number_text"
                 android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/BusinessCard_extended_Fav_Button"
+                android:layout_width="39dp"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:background="#6FFFFFFF"
+                app:srcCompat="@drawable/ic_star_border_black_24dp" />
 
         </RelativeLayout>
     </ScrollView>

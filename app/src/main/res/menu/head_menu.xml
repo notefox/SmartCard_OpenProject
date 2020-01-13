@@ -6,4 +6,10 @@
         android:icon="@drawable/ic_nfc_black_24dp"
         android:title="send"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/addManualItem"
+        android:icon="@drawable/ic_add_black_24dp"
+        android:title="addItem"
+        app:showAsAction="ifRoom"/>
 </menu>
