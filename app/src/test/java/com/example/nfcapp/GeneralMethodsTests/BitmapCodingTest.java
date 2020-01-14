@@ -1,6 +1,9 @@
-package com.example.nfcapp;
+package com.example.nfcapp.GeneralMethodsTests;
 
 import android.graphics.Bitmap;
+
+import com.example.nfcapp.GeneralMethods;
+import com.example.nfcapp.GeneralMethodsImpl;
 
 import org.junit.Before;
 import org.junit.Test;

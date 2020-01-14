@@ -12,7 +12,7 @@ public class BusinessCardItem {
     private String bitmapImage;
 
     private String name;
-    private CorporateTitle position;
+    private CorporateTitle position = CorporateTitle.Null;
     private String companyName;
 
     private String address;
@@ -40,8 +40,8 @@ public class BusinessCardItem {
         this.email = email;
     }
 
-    public BusinessCardItem(){
-        this.name = "test";
+    public BusinessCardItem(String name){
+        this.name = name;
     }
 
     public Bitmap getBitmapImage() {
