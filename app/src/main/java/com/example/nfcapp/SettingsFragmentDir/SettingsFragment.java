@@ -26,7 +26,7 @@ import androidx.fragment.app.Fragment;
 import com.example.nfcapp.BusinessCardDir.BusinessCardItem;
 import com.example.nfcapp.BusinessCardDir.CorporateTitle;
 import com.example.nfcapp.Database;
-import com.example.nfcapp.GeneralMethodsClass;
+import com.example.nfcapp.GeneralMethodsImpl;
 import com.example.nfcapp.R;
 import com.google.gson.Gson;
 
@@ -201,9 +201,9 @@ public class SettingsFragment extends Fragment {
             if (userBitmap == null)
                 Toast.makeText(getActivity(),"no Picture Selected!", Toast.LENGTH_LONG).show();
             else {
-                Database.setLocalID(new BusinessCardItem(0, userBitmap, editName.getText().toString(), corporateTitle, editCompanyName.getText().toString(), editAddress.getText().toString(), editNumber.getText().toString(), editEmail.getText().toString()));
+                Database.setLocalID(new BusinessCardItem(Database.getLocalBcFileName(), userBitmap, editName.getText().toString(), corporateTitle, editCompanyName.getText().toString(), editAddress.getText().toString(), editNumber.getText().toString(), editEmail.getText().toString()));
                 try {
-                    new GeneralMethodsClass().save(Database.getLocalID(), Database.getLocalBcFileName(), getActivity());
+                    new GeneralMethodsImpl().save(Database.getLocalID(), Database.getLocalBcFileName(), getActivity());
                     Toast.makeText(getActivity(),"Saved to " + getActivity().getFilesDir() + "/" + " local.bfc", Toast.LENGTH_LONG).show();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();

@@ -37,7 +37,7 @@ public class ApplicationClass extends Application {
         for (i = 0; !stop ; i++) {
             try {
 
-                BusinessCardItem temp = new GeneralMethodsClass().load(Database.FILE_PREFIX_NORMAL_BC + i + Database.getBcFileSuffix(), this);
+                BusinessCardItem temp = new GeneralMethodsImpl().load(Database.FILE_PREFIX_NORMAL_BC + i + Database.getBcFileSuffix(), this);
 
                 if (temp == null)
                     stop = true;
@@ -60,13 +60,13 @@ public class ApplicationClass extends Application {
             //Database.addItem(Database.getLocalID());
         } catch (Exception e) {
             Log.e(TAG, "no pre-used File found", e);
-            Database.setLocalID(new BusinessCardItem(0, new GeneralMethodsClass().createWhiteBitmap(10,10), "(no name)", "(no company)", CorporateTitle.Null));
+            Database.setLocalID(new BusinessCardItem(null, new GeneralMethodsImpl().createWhiteBitmap(10,10), "(no name)", "(no company)", CorporateTitle.Null));
             Database.addItem(Database.getLocalID());
         }
     }
 
     private void readLocalID() throws IOException {
-            Database.setLocalID(new GeneralMethodsClass().load(Database.getLocalBcFileName(), this));
+            Database.setLocalID(new GeneralMethodsImpl().load(Database.getLocalBcFileName(), this));
             Toast.makeText(this, "localID loaded from " + getFilesDir() + "/" + Database.getLocalBcFileName(), Toast.LENGTH_LONG).show();
             //Toast.makeText(this, sb.toString(), Toast.LENGTH_LONG).show();
     }

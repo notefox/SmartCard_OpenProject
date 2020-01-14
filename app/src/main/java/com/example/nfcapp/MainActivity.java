@@ -26,7 +26,6 @@ import com.example.nfcapp.SettingsFragmentDir.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import static com.example.nfcapp.Database.BC_FILE_SUFFIX;
@@ -145,9 +144,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.addManualItem:
-                BusinessCardItem temp = new BusinessCardItem(Database.getItemList().size(),null, "Test", "company", CorporateTitle.Null);
+                String fileName = FILE_PREFIX_NORMAL_BC + Database.getItemList().size() + BC_FILE_SUFFIX;
+                BusinessCardItem temp = new BusinessCardItem(fileName ,null, "Test", "company", CorporateTitle.Null);
                 try {
-                    new GeneralMethodsClass().save(temp, FILE_PREFIX_NORMAL_BC + Database.getItemList().size() + BC_FILE_SUFFIX, this);
+                    new GeneralMethodsImpl().save(temp,fileName, this);
                     addItem(temp);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -159,11 +159,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onNewIntent(Intent intent) {
-        FileOutputStream fos;
+        String fileName = FILE_PREFIX_NORMAL_BC + Database.getItemList().size() + BC_FILE_SUFFIX;
         BusinessCardItem gottenObject = new Gson().fromJson(nfc.handleNfcIntent(intent).get(0), BusinessCardItem.class);
         try {
-
-            new GeneralMethodsClass().save(gottenObject, (FILE_PREFIX_NORMAL_BC + Database.getItemList().size() + FILE_PREFIX_NORMAL_BC), this);
+            gottenObject.setOriginalFileName(fileName);
+            new GeneralMethodsImpl().save(gottenObject, fileName, this);
             Database.addItem(gottenObject);
         } catch (IOException e) {
             Log.e(TAG, "onNewIntent: ", e);

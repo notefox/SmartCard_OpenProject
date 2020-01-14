@@ -45,17 +45,27 @@ public class FavouritesFragment extends Fragment {
         favRecyclerView.setHasFixedSize(true);
 
         favLayoutManager = new LinearLayoutManager(this.getActivity());
-        Database.favAdapted = new BCAdapterRetracted(this.getActivity(), Database.getFavList());
+        Database.favAdapter = new BCAdapterRetracted(this.getActivity(), Database.getFavList());
 
         favRecyclerView.setLayoutManager(favLayoutManager);
-        favRecyclerView.setAdapter(Database.favAdapted);
+        favRecyclerView.setAdapter(Database.favAdapter);
 
-        Database.favAdapted.setOnItemClickListener(new BCAdapterRetracted.OnItemClickListener() {
+        Database.favAdapter.setOnItemClickListener(new BCAdapterRetracted.OnItemClickListener() {
             @Override
-            public void OnItemClick(int position) {
-                BusinessCardItem temp = Database.getItemList().get(position);
+            public void OnItemClick(int pos) {
+                BusinessCardItem temp = Database.getItemList().get(pos);
 
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new BCExtendedFragment(temp)).commit();
+            }
+
+            @Override
+            public void OnDeleteClick(int pos) {
+                Database.removeItem(Database.getFavList().get(pos));
+            }
+
+            @Override
+            public void OnFavFlick(int pos) {
+                Database.getItemList().get(pos).removeFromFavourite();
             }
         });
     }

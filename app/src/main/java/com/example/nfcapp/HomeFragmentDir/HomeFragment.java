@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void OnDeleteClick(int pos) {
-                Database.removeItem(pos);
+                Database.removeItem(Database.getItemList().get(pos));
             }
 
             @Override

@@ -3,11 +3,11 @@ package com.example.nfcapp.BusinessCardDir;
 import android.graphics.Bitmap;
 
 import com.example.nfcapp.Database;
-import com.example.nfcapp.GeneralMethodsClass;
+import com.example.nfcapp.GeneralMethodsImpl;
 
 public class BusinessCardItem {
 
-    private int id;
+    private String originalFileName;
 
     private String bitmapImage;
 
@@ -21,17 +21,17 @@ public class BusinessCardItem {
 
     private boolean favourite = false;
 
-    public BusinessCardItem(int id, Bitmap bitmapImage, String name, String companyName, CorporateTitle position) {
-        this.id = id;
-        this.bitmapImage = new GeneralMethodsClass().bitmapToString(bitmapImage);
+    public BusinessCardItem(String originalFileName, Bitmap bitmapImage, String name, String companyName, CorporateTitle position) {
+        this.originalFileName = originalFileName;
+        this.bitmapImage = new GeneralMethodsImpl().bitmapToString(bitmapImage);
         this.companyName = companyName;
         this.name = name;
         this.position = position;
     }
 
-    public BusinessCardItem(int id, Bitmap bitmapImage, String name, CorporateTitle position, String companyName, String address, String phoneNumber, String email) {
-        this.id = id;
-        this.bitmapImage = new GeneralMethodsClass().bitmapToString(bitmapImage);
+    public BusinessCardItem(String originalFileName, Bitmap bitmapImage, String name, CorporateTitle position, String companyName, String address, String phoneNumber, String email) {
+        this.originalFileName = originalFileName;
+        this.bitmapImage = new GeneralMethodsImpl().bitmapToString(bitmapImage);
         this.name = name;
         this.position = position;
         this.companyName = companyName;
@@ -40,18 +40,28 @@ public class BusinessCardItem {
         this.email = email;
     }
 
-    public Bitmap getBitmapImage() {
-        return new GeneralMethodsClass().stringToBitMap(this.bitmapImage);
-    }
-    public void setBitmapImage(Bitmap bitmapImage) {
-        this.bitmapImage = new GeneralMethodsClass().bitmapToString(bitmapImage);;
+    public BusinessCardItem(){
+        this.name = "test";
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Bitmap getBitmapImage() {
+        try {
+            return new GeneralMethodsImpl().stringToBitMap(this.bitmapImage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
-    public int getId() {
-        return id;
+    public void setBitmapImage(Bitmap bitmapImage) {
+        this.bitmapImage = new GeneralMethodsImpl().bitmapToString(bitmapImage);
+    }
+
+    public void setOriginalFileName(String originalFileName) {
+        this.originalFileName = originalFileName;
+    }
+
+    public String getOriginalFileName() {
+        return originalFileName;
     }
 
     public String getName() {
@@ -107,7 +117,7 @@ public class BusinessCardItem {
     }
     public void removeFromFavourite() {
         this.favourite = false;
-        Database.addFav(this);
+        Database.remFav(this);
     }
 
     public boolean isFavourite() {

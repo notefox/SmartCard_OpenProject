@@ -2,19 +2,23 @@ package com.example.nfcapp;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.nfcapp.BusinessCardDir.BusinessCardItem;
 import com.example.nfcapp.HomeFragmentDir.BCAdapterRetracted;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.AbstractList;
 import java.util.Vector;
 
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
 public class Database extends Application {
     public static final String BC_FILE_SUFFIX = ".bcf";
     private static String LOCAL_BC_FILE_NAME = "local" + BC_FILE_SUFFIX;
-    public static String FILE_PREFIX_NORMAL_BC = "receivedItem_";
+    public static String FILE_PREFIX_NORMAL_BC = "receivedBC_";
 
     private static Context mainContext;
 
@@ -28,7 +32,7 @@ public class Database extends Application {
     private static BusinessCardItem localID;
 
     public static BCAdapterRetracted homeAdapter;
-    public static BCAdapterRetracted favAdapted;
+    public static BCAdapterRetracted favAdapter;
 
     public static BusinessCardItem getLocalID() {
         return localID;
@@ -44,19 +48,32 @@ public class Database extends Application {
             Database.homeAdapter.notifyItemInserted(homeAdapter.getItemCount());
     }
 
-    public static void removeItem(int pos) {
-        new GeneralMethodsClass().deleteFile(Database.FILE_PREFIX_NORMAL_BC + pos + Database.BC_FILE_SUFFIX);
+    public static void removeItem(BusinessCardItem item) {
+        try {
+            new GeneralMethodsImpl().deleteFile(item.getOriginalFileName(), mainContext);
+        } catch (FileNotFoundException e) {
+            Log.e(TAG, "removeItem: ", e);
+        }
+
+        Database.itemList.remove(item);
+        Database.itemList_fav.remove(item);
+
+        if (favAdapter != null)
+            favAdapter.notifyDataSetChanged();
+        if (homeAdapter != null)
+            homeAdapter.notifyDataSetChanged();
     }
 
     public static void addFav(BusinessCardItem item) {
         Database.itemList_fav.add(item);
-        if (favAdapted != null)
-            Database.favAdapted.notifyItemInserted(favAdapted.getItemCount());
+        if (favAdapter != null)
+            Database.favAdapter.notifyDataSetChanged();
+        Database.homeAdapter.notifyDataSetChanged();
     }
 
     public void saveItem(BusinessCardItem item) {
         try {
-            new GeneralMethodsClass().save(item, (FILE_PREFIX_NORMAL_BC + itemList.size() + FILE_PREFIX_NORMAL_BC), mainContext);
+            new GeneralMethodsImpl().save(item, (FILE_PREFIX_NORMAL_BC + itemList.size() + FILE_PREFIX_NORMAL_BC), mainContext);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,8 +100,11 @@ public class Database extends Application {
         } catch (NullPointerException e) {
             Toast.makeText(mainContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-        if (favAdapted != null)
-            favAdapted.notifyDataSetChanged();
+
+        if (favAdapter != null)
+            favAdapter.notifyDataSetChanged();
+        if (homeAdapter != null)
+            homeAdapter.notifyDataSetChanged();
     }
 
     private static int findFavByNameAndCompany(BusinessCardItem item) throws NullPointerException {

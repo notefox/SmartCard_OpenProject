@@ -60,6 +60,7 @@ public class NFCHandlerTest {
         Activity mockActivity = mock(Activity.class);
         NfcAdapter mockAdapter = mock(NfcAdapter.class);
         Intent mockIntent = mock(Intent.class);
+
         Mockito.when(mockIntent.getAction()).thenReturn(NfcAdapter.ACTION_NDEF_DISCOVERED);
         Mockito.when(mockIntent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)).thenReturn(null);
         NFCHandler nfc = new NFCHandler(mockActivity, mockAdapter);
@@ -74,6 +75,7 @@ public class NFCHandlerTest {
         Activity mockActivity = mock(Activity.class);
         NfcAdapter mockAdapter = mock(NfcAdapter.class);
         NfcEvent mockEvent = mock(NfcEvent.class);
+
         //NdefRecord mockRecord = mock(NdefRecord.class);
         Mockito.when(mockActivity.getPackageName()).thenReturn("");
 

@@ -14,8 +14,7 @@ import androidx.fragment.app.Fragment;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-public class NFCHandler extends Fragment implements NfcAdapter.OnNdefPushCompleteCallback,
-        NfcAdapter.CreateNdefMessageCallback{
+public class NFCHandler extends Fragment implements NFCHandeable {
 
     //The array lists to hold our messages
     private ArrayList<String> messagesToSendArray = new ArrayList<>();
@@ -30,10 +29,7 @@ public class NFCHandler extends Fragment implements NfcAdapter.OnNdefPushComplet
         this.mNfcAdapter = adapter;
     }
 
-    /**
-     * Check if NFC is available on device
-     * @return true if NFC is available on device
-     */
+
     public boolean checkNFC() {
         if(mNfcAdapter != null) {
             //This will refer back to createNdefMessage for what it will send
@@ -49,10 +45,7 @@ public class NFCHandler extends Fragment implements NfcAdapter.OnNdefPushComplet
         }
     }
 
-    /**
-     * Add a message to ArrayList
-     * @param newMessage String
-     */
+
     public void addMessageToSend(String newMessage) {
         messagesToSendArray.add(newMessage);
     }
@@ -93,11 +86,7 @@ public class NFCHandler extends Fragment implements NfcAdapter.OnNdefPushComplet
         return records;
     }
 
-    /**
-     * Read NdefMessage and write in ArrayList
-     * @param NfcIntent Intent
-     * @return received messages as ArrayList
-     */
+
     public ArrayList<String> handleNfcIntent(Intent NfcIntent) {
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(NfcIntent.getAction())) {
             Parcelable[] receivedArray =
